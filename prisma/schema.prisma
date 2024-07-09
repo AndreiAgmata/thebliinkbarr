@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  email         String
+  firstName     String
+  lastName      String
+  phoneNumber   String
+  password      String
+  orders        Order[]
+}
+
+model Category {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  value     String
+  products Product[]
+}
+
+model Length {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  value    String
+  products Product[]
+}
+
+model CurlType {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  value     String
+  products Product[]
+}
+
+model Product {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  price        Float
+  quantity     Int
+  categoryId   String      @db.ObjectId
+  category     Category    @relation(fields: [categoryId], references: [id])
+  lengthId     String?     @db.ObjectId
+  length       Length?     @relation(fields: [lengthId], references: [id])
+  curlTypeId   String?     @db.ObjectId
+  curlType     CurlType?   @relation(fields: [curlTypeId], references: [id])
+}
+
+model Order {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  customerId   String     @db.ObjectId
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  items        OrderItem[]
+  totalPrice   Float
+  status       String     // Status of the order (e.g., pending, shipped, delivered)
+  createdAt    DateTime   @default(now())
+}
+
+model OrderItem {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId      String   @db.ObjectId
+  order        Order    @relation(fields: [orderId], references: [id])
+  productId    String   @db.ObjectId
+  quantity     Int
+}
