@@ -18,7 +18,7 @@ function Categories() {
         </h1>
         <div className="categories-cards grid grid-cols-4 gap-6">
           <div
-            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square"
+            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square relative"
             style={{
               backgroundImage: "url('/ItemImages/tray.jpg')",
               backgroundRepeat: "no-repeat",
@@ -32,7 +32,7 @@ function Categories() {
             </p>
           </div>
           <div
-            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square"
+            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square relative"
             style={{
               backgroundImage: "url('/ItemImages/tweezer.jpg')",
               backgroundRepeat: "no-repeat",
@@ -46,7 +46,7 @@ function Categories() {
             </p>
           </div>
           <div
-            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square"
+            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square relative"
             style={{
               backgroundImage: "url('/ItemImages/tiles.jpg')",
               backgroundRepeat: "no-repeat",
@@ -60,7 +60,7 @@ function Categories() {
             </p>
           </div>
           <div
-            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square"
+            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square relative"
             style={{
               backgroundImage: "url('/ItemImages/services.jpg')",
               backgroundRepeat: "no-repeat",
