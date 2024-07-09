@@ -24,7 +24,9 @@ async function SignUpPage() {
       >
         <div className="mascot-wrapper relative w-96 h-96">
           <Image
-            src={"/PageAssets/mascot.png"}
+            src={
+              "https://res.cloudinary.com/dko71zmmd/image/upload/f_auto,q_auto/kmghxj8oxd25pkc1kbin"
+            }
             alt="mascot"
             className="object-contain drop-shadow-lg"
             fill

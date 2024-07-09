@@ -16,7 +16,8 @@ async function LoginPage() {
       <div
         className="col-span-1 h-full flex items-center justify-center "
         style={{
-          backgroundImage: "url('/PageAssets/authBg.jpg')",
+          backgroundImage:
+            "https://res.cloudinary.com/dko71zmmd/image/upload/f_auto,q_auto/kmghxj8oxd25pkc1kbin",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
