@@ -16,8 +16,8 @@ function BestSellers() {
 
   return (
     <section className="container mx-auto flex flex-col items-center mb-24">
-      <h1 className="text-3xl font-medium mb-2">Best Sellers</h1>
-      <p className="mb-8">
+      <h1 className="font-bold text-4xl text-pink-300 mb-2">Best Sellers</h1>
+      <p className="mb-8 text-sm text-center">
         See what our customers are raving about! Our best sellers are top-rated
         for their quality and value.
       </p>

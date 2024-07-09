@@ -13,7 +13,7 @@ function Categories() {
       }}
     >
       <div className="content container mx-auto flex flex-col items-center py-28">
-        <h1 className=" text-pink-400 font-bold text-3xl mb-8">
+        <h1 className=" text-pink-400 font-bold text-4xl mb-8">
           Browse Our Categories
         </h1>
         <div className="categories-cards grid grid-cols-4 gap-6">

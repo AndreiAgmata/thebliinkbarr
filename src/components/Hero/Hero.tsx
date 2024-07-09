@@ -8,7 +8,7 @@ function Hero() {
     <section className="hero container mx-auto">
       <div className="banner mt-20 grid grid-cols-2 gap-y-12 gap-24">
         <div className="text col-span-2 lg:col-span-1 flex flex-col items-center lg:items-end justify-center">
-          <h1 className="text-[2rem] sm:text-4xl font-medium w-96 leading-tight mb-3 text-center lg:text-left">
+          <h1 className="text-[2.10rem] sm:text-4xl font-bold w-96 leading-tight mb-3 text-center lg:text-left text-pink-300">
             Hey Loves! Welcome to The Blinks Club
           </h1>
           <p className="w-96 text-sm leading-6 mb-5 text-center lg:text-left">
