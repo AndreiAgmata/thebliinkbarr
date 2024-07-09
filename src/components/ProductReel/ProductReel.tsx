@@ -1,7 +1,5 @@
 import React from "react";
 import SortByDropdown from "./SortByDropdown";
-import Image from "next/image";
-import Link from "next/link";
 import { Product } from "../../../types/interfaces";
 import ProductReelCard from "../ProductReelCard/ProductReelCard";
 
