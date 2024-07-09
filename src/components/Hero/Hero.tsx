@@ -26,7 +26,9 @@ function Hero() {
         <div className="mascot col-span-2 lg:col-span-1 flex items-center lg:items-start justify-center">
           <div className="mascot-wrapper relative h-56 w-56 lg:w-96 lg:h-96">
             <Image
-              src={"/PageAssets/mascot.png"}
+              src={
+                "https://res.cloudinary.com/dko71zmmd/image/upload/f_auto,q_auto/kmghxj8oxd25pkc1kbin"
+              }
               alt="mascot"
               className="object-contain drop-shadow-lg"
               fill
