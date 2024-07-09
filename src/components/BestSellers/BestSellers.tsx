@@ -21,7 +21,7 @@ function BestSellers() {
         See what our customers are raving about! Our best sellers are top-rated
         for their quality and value.
       </p>
-      <div className="product-reel w-full grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="product-reel w-full grid grid-cols-2 lg:grid-cols-4 gap-3">
         <ProductReelCard product={product} />
         <ProductReelCard product={product} />
         <ProductReelCard product={product} />
