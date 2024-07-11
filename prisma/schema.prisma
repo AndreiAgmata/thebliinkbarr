@@ -15,38 +15,56 @@ model Customer {
   phoneNumber   String
   password      String
   orders        Order[]
+  cartId        String?   @db.ObjectId
+  cart          Cart?     @relation("CustomerCart")
 }
 
 model Category {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  value     String
-  products Product[]
-}
-
-model Length {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  value    String
-  products Product[]
-}
-
-model CurlType {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  value     String
-  products Product[]
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  value      String
+  products   Product[]
 }
 
 model Product {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String
-  price        Float
-  quantity     Int
   categoryId   String      @db.ObjectId
   category     Category    @relation(fields: [categoryId], references: [id])
-  lengthId     String?     @db.ObjectId
-  length       Length?     @relation(fields: [lengthId], references: [id])
-  curlTypeId   String?     @db.ObjectId
-  curlType     CurlType?   @relation(fields: [curlTypeId], references: [id])
+  imageLink    String
+  variations   Variation[]
+  cartItems    CartItem[]
+}
+
+model Variation {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  length    Int
+  curlType  String
+  price     Float
+  stock     Int
+  sales     Int
+  product   Product    @relation(fields: [productId], references: [id])
+  productId String     @db.ObjectId
+  cartItems CartItem[] @relation("VariationCartItems")
+  orderItems OrderItem[] @relation("VariationOrderItems")
+}
+
+model CartItem {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  cartId       String      @db.ObjectId
+  cart         Cart        @relation(fields: [cartId], references: [id], name: "CartItems")
+  productId    String      @db.ObjectId
+  Product      Product     @relation(fields: [productId], references: [id])
+  variationId  String      @db.ObjectId
+  Variation    Variation   @relation(fields: [variationId], references: [id] ,name: "VariationCartItems")
+  quantity     Int
+}
+
+model Cart {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  customerId  String      @unique @db.ObjectId
+  customer    Customer    @relation(fields: [customerId], references: [id], name: "CustomerCart")
+  items       CartItem[]  @relation("CartItems")
 }
 
 model Order {
@@ -60,9 +78,11 @@ model Order {
 }
 
 model OrderItem {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  orderId      String   @db.ObjectId
-  order        Order    @relation(fields: [orderId], references: [id])
-  productId    String   @db.ObjectId
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  orderId      String     @db.ObjectId
+  order        Order      @relation(fields: [orderId], references: [id])
+  variationId  String?    @db.ObjectId // Optional reference to Variation
   quantity     Int
+  variation    Variation? @relation(fields: [variationId], references: [id], name: "VariationOrderItems")
+  
 }

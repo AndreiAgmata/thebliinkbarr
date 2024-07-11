@@ -1,21 +1,24 @@
 import React from "react";
-import { connectToDb } from "../../../../../helpers/serverHelpers";
 import prisma from "../../../../../prisma";
+import { connectToDb } from "../../../../../helpers/serverHelpers";
 import ProductReel from "@/components/ProductReel/ProductReel";
 
-const getTweezerProducts = async () => {
+const getLashTrayProducts = async () => {
   try {
     await connectToDb();
 
     const category = await prisma.category.findFirst({
       where: {
-        value: "Tweezers",
+        value: "Lash Trays",
       },
     });
 
     const products = await prisma.product.findMany({
       where: {
         categoryId: category?.id,
+      },
+      include: {
+        variations: true,
       },
     });
 
@@ -27,9 +30,9 @@ const getTweezerProducts = async () => {
   }
 };
 
-async function TweezersPage() {
-  const products = await getTweezerProducts();
+async function LashTraysPage() {
+  const products = await getLashTrayProducts();
   return <ProductReel products={products} />;
 }
 
-export default TweezersPage;
+export default LashTraysPage;

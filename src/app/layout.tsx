@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import NextAuthSessionProvider from "../../providers/NextAuthSessionProvider";
+import { CartProvider } from "@/context/CartContext";
 
 const Satoshi = localFont({
   src: [
@@ -36,7 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={Satoshi.className}>
-        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+        <NextAuthSessionProvider>
+          <CartProvider>{children}</CartProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

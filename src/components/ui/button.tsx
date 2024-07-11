@@ -10,11 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-pink-300 text-primary-foreground hover:bg-pink-300/70 rounded-full",
+          "bg-pink-300 text-primary-foreground hover:bg-pink-300/70 rounded-md",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "rounded-full border border-pink-200 border-2 bg-background text-pink-300 hover:bg-accent hover:text-pink-300/70",
+          "rounded-md border border-pink-200 border-2 bg-background text-pink-300 hover:bg-accent hover:text-pink-300/70",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",

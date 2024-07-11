@@ -2,20 +2,21 @@ import { NextResponse } from "next/server";
 import { connectToDb } from "../../../../../helpers/serverHelpers";
 import prisma from "../../../../../prisma";
 
+interface Variation {
+  length: number;
+  curlType: string;
+  price: number;
+  stock: number;
+  sales: number;
+}
+
 export const POST = async (req: Request) => {
   try {
-    const {
-      name,
-      description,
-      price,
-      quantity,
-      categoryId,
-      lengthId,
-      curlTypeId,
-    } = await req.json();
+    const { name, description, categoryId, imageLink, variations } =
+      await req.json();
 
     // Validate required fields
-    if (!name || !description || !price || !quantity || !categoryId) {
+    if (!name || !description || !categoryId || !variations) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
@@ -26,16 +27,21 @@ export const POST = async (req: Request) => {
       data: {
         name,
         description,
-        price,
-        quantity,
-        category: {
-          connect: { id: categoryId },
+        categoryId,
+        imageLink,
+        variations: {
+          create: variations.map((variation: Variation) => ({
+            length: variation.length,
+            curlType: variation.curlType,
+            price: variation.price,
+            stock: variation.stock,
+            sales: variation.sales,
+          })),
         },
-        length: lengthId ? { connect: { id: lengthId } } : undefined,
-        curlType: curlTypeId ? { connect: { id: curlTypeId } } : undefined,
       },
       include: {
         category: true,
+        variations: true,
       },
     });
 

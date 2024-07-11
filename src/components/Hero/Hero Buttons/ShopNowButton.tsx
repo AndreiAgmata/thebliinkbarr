@@ -6,7 +6,10 @@ import React from "react";
 function ShopNowButton() {
   const router = useRouter();
   return (
-    <Button className="w-full" onClick={() => router.push("/products/all")}>
+    <Button
+      className="w-full"
+      onClick={() => router.push("/products-category/all")}
+    >
       Shop Now
     </Button>
   );

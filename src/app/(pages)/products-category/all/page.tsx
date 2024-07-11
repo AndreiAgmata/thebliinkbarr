@@ -6,9 +6,11 @@ import prisma from "../../../../../prisma";
 const getAllProducts = async () => {
   try {
     await connectToDb();
-
-    const products = await prisma.product.findMany({});
-
+    const products = await prisma.product.findMany({
+      include: {
+        variations: true,
+      },
+    });
     return products;
   } catch (error) {
     console.log(error);
@@ -19,7 +21,6 @@ const getAllProducts = async () => {
 
 async function AllProductsPage() {
   const products = await getAllProducts();
-
   return <ProductReel products={products} />;
 }
 

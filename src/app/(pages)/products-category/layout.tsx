@@ -10,7 +10,7 @@ export default function Layout({
   const pathName = usePathname();
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto min-h-[550px]">
         <div className="grid grid-cols-8 mt-8">
           <div className="menu col-span-2 p-5 border-r h-96">
             <div className="menu-title border-b ps-4 pb-2">
@@ -18,7 +18,7 @@ export default function Layout({
             </div>
             <div className="menu-options flex flex-col gap-1 pt-2">
               <Link
-                href={"/products/all"}
+                href={"/products-category/all"}
                 className={`font-medium ps-4 py-2  ${
                   pathName.includes("/all")
                     ? "bg-pink-300"
@@ -28,7 +28,7 @@ export default function Layout({
                 All
               </Link>
               <Link
-                href={"/products/lashTrays"}
+                href={"/products-category/lashTrays"}
                 className={`font-medium ps-4 py-2  ${
                   pathName.includes("/lashTrays")
                     ? "bg-pink-300"
@@ -38,7 +38,7 @@ export default function Layout({
                 Lash Trays
               </Link>
               <Link
-                href={"/products/tweezers"}
+                href={"/products-category/tweezers"}
                 className={`font-medium ps-4 py-2  ${
                   pathName.includes("/tweezers")
                     ? "bg-pink-300"
@@ -48,7 +48,7 @@ export default function Layout({
                 Tweezers
               </Link>
               <Link
-                href={"/products/accessories"}
+                href={"/products-category/accessories"}
                 className={`font-medium ps-4 py-2  ${
                   pathName.includes("/accessories")
                     ? "bg-pink-300"
