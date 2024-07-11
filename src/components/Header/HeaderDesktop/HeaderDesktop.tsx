@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import SignUpButton from "../Buttons/SignUpButton";
-import CartButton from "../Buttons/CartButton";
+import CartButton from "../../Cart/CartButton";
 import { getServerSession } from "next-auth";
 import nextAuthOptions from "@/lib/AuthOptions";
 import MyAccountButton from "../Buttons/MyAccountButton";

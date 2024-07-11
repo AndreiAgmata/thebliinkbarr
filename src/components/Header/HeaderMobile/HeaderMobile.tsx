@@ -1,7 +1,7 @@
+import CartButton from "@/components/Cart/CartButton";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import CartButton from "../Buttons/CartButton";
 import { IoMenu } from "react-icons/io5";
 
 function HeaderMobile() {

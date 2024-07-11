@@ -35,6 +35,7 @@ export const GET = async () => {
 
     // Transform the cart data to include the desired details
     const cartItems = cart.items.map((item) => ({
+      id: item.id,
       name: item.Product.name,
       imageLink: item.Product.imageLink,
       price: item.Variation ? item.Variation.price : null,

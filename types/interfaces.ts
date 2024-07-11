@@ -19,10 +19,15 @@ export interface Variation {
 export interface CartItem {
   productId: string;
   variationId: string;
+  name: string;
+  imageLink: string;
+  price: number;
+  length: number | null;
+  curlType: string | null;
   quantity: number;
 }
 
-export interface Cart {
-  cartItems: CartItem[];
-  cartTotal: number;
-}
+// export interface Cart {
+//   cartItems: CartItem[];
+//   cartTotal: number;
+// }

@@ -9,11 +9,9 @@ import React, {
 import { CartItem } from "../../types/interfaces";
 
 interface CartContextType {
-  cartItems: CartItem[];
+  cart: CartItem[];
   addToCart: (cartItem: CartItem) => void;
-  removeFromCart: (index: number) => void;
-  increaseQuantity: (index: number) => void;
-  decreaseQuantity: (index: number) => void;
+  removeFromCart: (variationId: string) => void;
   clearCart: () => void;
 }
 
@@ -22,74 +20,58 @@ const CART_STORAGE_KEY = "cart";
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const storedCart = localStorage.getItem(CART_STORAGE_KEY);
     if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
+      setCart(JSON.parse(storedCart));
     }
   }, []);
 
-  const addToCart = (item: CartItem) => {
-    const updatedCart = cartItems.map((cartItem) =>
-      cartItem.productId === item.productId &&
-      cartItem.variationId === item.variationId
-        ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-        : cartItem
+  const addToCart = (newCartItem: CartItem) => {
+    const isDuplicate = cart.some(
+      (cartItem) => cartItem.variationId === newCartItem.variationId
     );
 
-    const isDuplicate = updatedCart.some(
-      (cartItem) =>
-        cartItem.productId === item.productId &&
-        cartItem.variationId === item.variationId
-    );
-
-    if (!isDuplicate) {
-      updatedCart.push(item);
+    if (isDuplicate) {
+      const updatedCart = cart.map((cartItem) => {
+        if (cartItem.variationId === newCartItem.variationId) {
+          return {
+            ...cartItem,
+            quantity: cartItem.quantity + newCartItem.quantity,
+          };
+        }
+        return cartItem;
+      });
+      setCart(updatedCart);
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCart));
+    } else {
+      const updatedCart = [...cart, newCartItem];
+      setCart(updatedCart);
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCart));
     }
-
-    setCartItems(updatedCart);
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCart));
   };
 
-  const removeFromCart = (index: number) => {
-    const updatedCart = cartItems.filter((_, i) => i !== index);
-    setCartItems(updatedCart);
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCart));
-  };
-
-  const increaseQuantity = (index: number) => {
-    const updatedCartItems = cartItems.map((item, i) =>
-      i === index ? { ...item, quantity: item.quantity + 1 } : item
+  const removeFromCart = (variationId: string) => {
+    const updatedCart = cart.filter(
+      (cartItem) => cartItem.variationId !== variationId
     );
-    setCartItems(updatedCartItems);
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCartItems));
-  };
-
-  const decreaseQuantity = (index: number) => {
-    const updatedCartItems = cartItems.map((item, i) =>
-      i === index && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    setCartItems(updatedCartItems);
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCartItems));
+    setCart(updatedCart);
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedCart));
   };
 
   const clearCart = () => {
-    setCartItems([]);
+    setCart([]);
     localStorage.removeItem(CART_STORAGE_KEY);
   };
 
   return (
     <CartContext.Provider
       value={{
-        cartItems,
+        cart,
         addToCart,
         removeFromCart,
-        increaseQuantity,
-        decreaseQuantity,
         clearCart,
       }}
     >

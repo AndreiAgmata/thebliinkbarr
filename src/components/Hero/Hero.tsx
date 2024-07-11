@@ -8,15 +8,15 @@ function Hero() {
     <section className="hero container mx-auto">
       <div className="banner mt-20 grid grid-cols-2 gap-y-12 gap-24">
         <div className="text col-span-2 lg:col-span-1 flex flex-col items-center lg:items-end justify-center">
-          <h1 className="text-[2.10rem] sm:text-4xl font-bold w-96 leading-tight mb-3 text-center lg:text-left text-pink-300">
+          <h1 className="text-[2.10rem] sm:text-4xl font-bold 0 w-full md:w-96 leading-tight mb-3 text-center lg:text-left text-pink-300">
             Hey Loves! Welcome to The Blinks Club
           </h1>
-          <p className="w-96 text-sm leading-6 mb-5 text-center lg:text-left">
+          <p className="w-full 0 md:w-96 text-sm leading-6 mb-5 text-center lg:text-left">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
             obcaecati amet ipsa, dolor, tenetur adipisci fugit eum nam dolores
             inventore.
           </p>
-          <div className="buttons flex flex-col lg:flex-row gap-2 w-96">
+          <div className="buttons flex flex-col lg:flex-row gap-2 w-full 0 md:w-96">
             <ShopNowButton />
             <Button variant={"outline"} className="w-full">
               Services

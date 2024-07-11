@@ -12,14 +12,14 @@ export default function Layout({
     <>
       <div className="container mx-auto min-h-[550px]">
         <div className="grid grid-cols-8 mt-8">
-          <div className="menu col-span-2 p-5 border-r h-96">
-            <div className="menu-title border-b ps-4 pb-2">
+          <div className="menu col-span-8 lg:col-span-2 lg:p-5 lg:border-r lg:h-96">
+            <div className="menu-title border-b ps-4 pb-2 hidden lg:block">
               <h1 className="text-lg font-bold">CATEGORIES</h1>
             </div>
-            <div className="menu-options flex flex-col gap-1 pt-2">
+            <div className="menu-options grid grid-cols-4 gap-1 pt-2">
               <Link
                 href={"/products-category/all"}
-                className={`font-medium ps-4 py-2  ${
+                className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4  ${
                   pathName.includes("/all")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"
@@ -29,7 +29,7 @@ export default function Layout({
               </Link>
               <Link
                 href={"/products-category/lashTrays"}
-                className={`font-medium ps-4 py-2  ${
+                className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4 ${
                   pathName.includes("/lashTrays")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"
@@ -39,7 +39,7 @@ export default function Layout({
               </Link>
               <Link
                 href={"/products-category/tweezers"}
-                className={`font-medium ps-4 py-2  ${
+                className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4 ${
                   pathName.includes("/tweezers")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"
@@ -49,7 +49,7 @@ export default function Layout({
               </Link>
               <Link
                 href={"/products-category/accessories"}
-                className={`font-medium ps-4 py-2  ${
+                className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4 ${
                   pathName.includes("/accessories")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"
@@ -59,7 +59,7 @@ export default function Layout({
               </Link>
             </div>
           </div>
-          <div className="display col-span-6 ">{children}</div>
+          <div className="display col-span-8 lg:col-span-6">{children}</div>
         </div>
       </div>
     </>
