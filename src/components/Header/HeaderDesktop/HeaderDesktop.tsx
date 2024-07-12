@@ -26,13 +26,13 @@ async function HeaderDesktop() {
           />
         </Link>
       </div>
-      <div className="search-bar flex gap-2">
+      {/* <div className="search-bar flex gap-2">
         <Input placeholder="What Are You Looking For?" className="w-96" />
         <Button>Search</Button>
-      </div>
+      </div> */}
       <nav className="nav flex items-center gap-2">
-        {session ? <MyAccountButton /> : <SignUpButton />}
         <CartButton />
+        {session ? <MyAccountButton /> : <SignUpButton />}
       </nav>
     </>
   );

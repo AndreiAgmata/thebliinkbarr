@@ -11,35 +11,15 @@ import { Button } from "../ui/button";
 import { CartItem } from "../../../types/interfaces";
 import CartItemCard from "./CartItemCard";
 import { useRouter } from "next/navigation";
+import {
+  calculateHST,
+  calculateShipping,
+  calculateSubTotal,
+  calculateTotal,
+} from "../../../helpers/calculateTotalsHelper";
 
 function CartSideSheet({ cart }: { cart: CartItem[] }) {
   const router = useRouter();
-  const calculateSubTotal = () => {
-    let subTotal = 0;
-    for (const cartItem of cart) {
-      subTotal += cartItem.price * cartItem.quantity;
-    }
-
-    return subTotal;
-  };
-
-  const calculateShipping = () => {
-    if (calculateSubTotal() > 80) {
-      return 0;
-    } else {
-      return 14.99;
-    }
-  };
-
-  const calculateHST = () => {
-    return parseFloat((calculateSubTotal() * 0.13).toFixed(2));
-  };
-
-  const calculateTotal = () => {
-    return parseFloat(
-      (calculateSubTotal() + calculateShipping() + calculateHST()).toFixed(2)
-    );
-  };
   return (
     <SheetContent className="flex flex-col">
       <SheetHeader>
@@ -63,19 +43,19 @@ function CartSideSheet({ cart }: { cart: CartItem[] }) {
               <p className="font-bold text-xl mb-2">Cart Total</p>
               <span className="flex justify-between">
                 <p className="font-medium text-[0.90rem]">Sub-total: </p>
-                <p className="text-[0.90rem]">${calculateSubTotal()}</p>
+                <p className="text-[0.90rem]">${calculateSubTotal(cart)}</p>
               </span>
               <span className="flex justify-between">
                 <p className="font-medium text-[0.90rem]">Shipping: </p>
-                <p className="text-[0.90rem]">${calculateShipping()}</p>
+                <p className="text-[0.90rem]">${calculateShipping(cart)}</p>
               </span>
               <span className="flex justify-between">
                 <p className="font-medium text-[0.90rem]">HST: </p>
-                <p className="text-[0.90rem]">${calculateHST()}</p>
+                <p className="text-[0.90rem]">${calculateHST(cart)}</p>
               </span>
               <span className="flex justify-between mt-4">
                 <p className="font-bold">Total: </p>
-                <p className="font-bold">${calculateTotal()}</p>
+                <p className="font-bold">${calculateTotal(cart)}</p>
               </span>
             </div>
             <SheetClose asChild>

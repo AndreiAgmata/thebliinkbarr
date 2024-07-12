@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { error } from "console";
 
 function SignUpForm() {
   const [newUser, setNewUser] = useState<{
@@ -20,54 +21,73 @@ function SignUpForm() {
     password: "",
   });
 
-  const [firstNameError, setFirstNameError] = useState(false);
-  const [lastNameError, setLastNameError] = useState(false);
-  const [phoneNumberError, setPhoneNumberError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [isDuplicateEmail, setIsDuplicateEmail] = useState(false);
   const [passwordLengthError, setPasswordLengthError] = useState(false);
+  const [fieldError, setFieldError] = useState(false);
+  const [serverError, setServerError] = useState(false);
+
+  const [signingUp, setSigningup] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewUser({ ...newUser, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    validateInput();
-    console.log(newUser);
-  };
+    setFieldError(false);
+    setPasswordLengthError(false);
+    setIsDuplicateEmail(false);
+    setServerError(false);
+    setSigningup(true);
 
-  const validateInput = () => {
-    if (!newUser.firstName) {
-      setFirstNameError(true);
+    if (
+      !newUser.firstName ||
+      !newUser.lastName ||
+      !newUser.phoneNumber ||
+      !newUser.email ||
+      !newUser.password
+    ) {
+      setFieldError(true);
+      setSigningup(false);
+      return;
     } else {
-      setFirstNameError(false);
+      setFieldError(false);
+      if (newUser.password.length < 8) {
+        setPasswordLengthError(true);
+        setSigningup(false);
+        return;
+      } else {
+        setPasswordLengthError(false);
+      }
     }
-    if (!newUser.lastName) {
-      setLastNameError(true);
-    } else {
-      setLastNameError(false);
-    }
-    if (!newUser.phoneNumber) {
-      setPhoneNumberError(true);
-    } else {
-      setPhoneNumberError(false);
-    }
-    if (!newUser.email) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
-    }
-    if (!newUser.password) {
-      setPasswordError(true);
-    } else {
-      setPasswordError(false);
-    }
-    if (newUser.password.length < 8 && newUser.password !== "") {
-      setPasswordLengthError(true);
-    } else {
-      setPasswordLengthError(false);
+
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      const status = res.status;
+
+      if (!res.ok) {
+        if (status === 409) {
+          setIsDuplicateEmail(true);
+        } else {
+          setServerError(true);
+        }
+        return;
+      }
+      const data = await res.json();
+      setSuccess(true);
+    } catch (error) {
+      console.log("Signup error:", error);
+    } finally {
+      setSigningup(false);
     }
   };
 
@@ -89,9 +109,6 @@ function SignUpForm() {
             onChange={handleChange}
             value={newUser.firstName}
           />
-          {firstNameError && (
-            <p className="text-sm mt-1 text-red-500">This field is required.</p>
-          )}
         </div>
         <div className="col-span-1">
           <Label htmlFor="last name" className="text-pink-300">
@@ -104,9 +121,6 @@ function SignUpForm() {
             onChange={handleChange}
             value={newUser.lastName}
           />
-          {lastNameError && (
-            <p className="text-sm mt-1 text-red-500">This field is required.</p>
-          )}
         </div>
       </div>
       <div className="grid grid-cols-1 gap-5 w-full mb-2">
@@ -121,9 +135,6 @@ function SignUpForm() {
             onChange={handleChange}
             value={newUser.phoneNumber}
           />
-          {phoneNumberError && (
-            <p className="text-sm mt-1 text-red-500">This field is required.</p>
-          )}
         </div>
       </div>
       <div className="grid grid-cols-1 gap-5 w-full mb-2">
@@ -138,9 +149,6 @@ function SignUpForm() {
             onChange={handleChange}
             value={newUser.email}
           />
-          {emailError && (
-            <p className="text-sm mt-1 text-red-500">This field is required.</p>
-          )}
         </div>
       </div>
       <div className="grid grid-cols-1 gap-5 w-full mb-8">
@@ -156,19 +164,47 @@ function SignUpForm() {
             onChange={handleChange}
             value={newUser.password}
           />
-          {passwordError && (
-            <p className="text-sm mt-1 text-red-500">This field is required.</p>
-          )}
-          {passwordLengthError && (
-            <p className="text-sm mt-1 text-red-500">
-              Password must contain at least 8 characters.
-            </p>
-          )}
         </div>
       </div>
+      {fieldError && (
+        <p className="text-sm mt-[-0.75rem] mb-2 text-red-500">
+          Please fill all the fields.
+        </p>
+      )}
+      {passwordLengthError && (
+        <p className="text-sm mt-[-0.75rem] mb-2 text-red-500">
+          Password must contain at least 8 characters.
+        </p>
+      )}
+      {serverError && (
+        <p className="text-sm mt-[-0.75rem] mb-2 text-red-500">
+          An error occurred. Please try again later.
+        </p>
+      )}
+      {isDuplicateEmail && (
+        <p className="text-sm mt-[-0.75rem] mb-2 text-red-500">
+          This email is already in use. Please try a different email.
+        </p>
+      )}
+      {success && (
+        <div className="mt-[-0.75rem] mb-2 ">
+          <p className="text-sm inline">Account Created! Please click </p>
+          <Link
+            href={"/auth/login"}
+            className="inline text-sm font-medium text-pink-300"
+          >
+            here
+          </Link>
+          <p className="text-sm inline"> to sign in.</p>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-5 w-full mb-3">
-        <Button className="rounded-lg" onClick={handleSubmit}>
-          Submit
+        <Button
+          className="rounded-lg"
+          onClick={handleSubmit}
+          disabled={signingUp}
+        >
+          {signingUp ? "Signing Up" : "Sign Up"}
         </Button>
       </div>
       <div className="flex gap-2">

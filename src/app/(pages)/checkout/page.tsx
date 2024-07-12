@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+import OrderDetails from "@/components/Checkout/OrderDetails";
+import ShippingDetailsForm from "@/components/Checkout/ShippingDetailsForm";
+import React, { useState } from "react";
 
 function CheckoutPage() {
   return (
@@ -10,7 +13,7 @@ function CheckoutPage() {
         </p>
         <p className="text-sm font-medium mt-2">Pick Up Address: </p>
         <p className="text-sm mb-2">
-          1594 Victoria Park Ave, <br /> North York, ON, M1R 1P6
+          1646 Victoria Park Ave, <br /> North York, ON, M1R 1P7
         </p>
         <p className="font-bold text-sm inline">Email receipts: </p>
         <p className="text-sm inline">
@@ -18,9 +21,9 @@ function CheckoutPage() {
           check your spam.
         </p>
       </div>
-      <div className="order-details grid grid-cols-2 gap-3 mt-12">
-        <div className="col-span-1 h-96 bg-red-300"></div>
-        <div className="col-span-1 h-96 bg-blue-300"></div>
+      <div className="order-details grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+        <ShippingDetailsForm />
+        <OrderDetails />
       </div>
     </div>
   );

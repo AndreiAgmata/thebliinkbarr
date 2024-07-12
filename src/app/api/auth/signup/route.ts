@@ -25,6 +25,17 @@ export const POST = async (req: Request) => {
     };
 
     await connectToDb();
+
+    const duplicateUser = await prisma.customer.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (duplicateUser) {
+      return NextResponse.json({ message: "Duplicate User" }, { status: 409 });
+    }
+
     const newUser = await prisma.customer.create({ data: newUserDetails });
 
     return NextResponse.json({ newUser }, { status: 201 });

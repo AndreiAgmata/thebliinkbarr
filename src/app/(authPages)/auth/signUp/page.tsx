@@ -8,13 +8,14 @@ import React from "react";
 async function SignUpPage() {
   const session = await getServerSession(nextAuthOptions);
   if (session) redirect("/");
+
   return (
-    <div className="w-screen h-screen grid grid-cols-2">
+    <div className="w-screen h-screen grid grid-cols-1 lg:grid-cols-2">
       <div className="col-span-1 h-full flex flex-col items-center justify-center relative">
         <SignUpForm />
       </div>
       <div
-        className="col-span-1 h-full flex items-center justify-center"
+        className="col-span-1 h-full hidden lg:flex items-center justify-center"
         style={{
           backgroundImage: "url('/PageAssets/authBg.jpg')",
           backgroundRepeat: "no-repeat",

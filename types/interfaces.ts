@@ -27,7 +27,38 @@ export interface CartItem {
   quantity: number;
 }
 
-// export interface Cart {
-//   cartItems: CartItem[];
-//   cartTotal: number;
-// }
+export interface OrderPayload {
+  firstName: string;
+  lastName: string;
+  isStorePickup: boolean;
+  streetAddress: string;
+  apartmentUnit: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  email: string;
+  phoneNumber: string;
+  items: OrderItemPayload[];
+  totalPrice: number;
+  status: string;
+}
+
+export interface OrderItemPayload {
+  productId: string;
+  variationId: string;
+  quantity: number;
+}
+
+export interface ShippingAddress {
+  firstName: string;
+  lastName: string;
+  streetAddress: string;
+  apartmentUnit: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  email: string;
+  phoneNumber: string;
+}

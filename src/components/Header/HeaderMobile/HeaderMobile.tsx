@@ -1,13 +1,19 @@
 import CartButton from "@/components/Cart/CartButton";
+import { Button } from "@/components/ui/button";
+import nextAuthOptions from "@/lib/AuthOptions";
+import { CircleUser } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { IoMenu } from "react-icons/io5";
+import SignUpButton from "../Buttons/SignUpButton";
 
-function HeaderMobile() {
+async function HeaderMobile() {
+  const session = await getServerSession(nextAuthOptions);
   return (
     <>
-      <div className="logo-wrapper w-[10rem] h-[3rem] relative">
+      <div className="logo-wrapper w-[9rem] h-[3rem] relative">
         <Link href={"/"}>
           <Image
             src={"/PageAssets/logo.png"}
@@ -21,19 +27,17 @@ function HeaderMobile() {
       </div>
       <div className="buttons flex items-center justify-center gap-2">
         <CartButton />
-        <div className="menu-burger-wrapper w-[38px] h-[36px] bg-pink-300 rounded-lg flex items-center justify-center">
-          <IoMenu size={"2em"} color="white" />
-        </div>
+        {session ? (
+          <Link
+            href={"/account/accountDetails"}
+            className="menu-burger-wrapper w-[34px] h-[34px] bg-pink-300 rounded-full flex items-center justify-center"
+          >
+            <CircleUser color="white" />
+          </Link>
+        ) : (
+          <SignUpButton />
+        )}
       </div>
-
-      {/* <div className="search-bar flex gap-2">
-    <Input placeholder="What Are You Looking For?" className="w-96" />
-    <Button>Search</Button>
-  </div>
-  <nav className="nav flex items-center gap-2">
-    {session ? <MyAccountButton /> : <SignUpButton />}
-    <CartButton />
-  </nav> */}
     </>
   );
 }
