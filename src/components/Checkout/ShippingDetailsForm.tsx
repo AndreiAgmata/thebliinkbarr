@@ -8,15 +8,63 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
 
-function ShippingAddressForm() {
+interface ShippingDetailsProps {
+  currentStep: string;
+  onStepChange: (newStep: string) => void;
+}
+
+function ShippingAddressForm({
+  currentStep,
+  onStepChange,
+}: ShippingDetailsProps) {
   const {
     shippingAddress,
     isStorePickup,
     updateShippingAddress,
     toggleIsStorePickup,
   } = useShippingDetailsContext();
+
+  const [contactError, setContactError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+
+  const validateInput = () => {
+    setContactError(false);
+    setAddressError(false);
+
+    if (
+      !shippingAddress.firstName ||
+      !shippingAddress.lastName ||
+      !shippingAddress.email ||
+      !shippingAddress.phoneNumber
+    ) {
+      setContactError(true);
+      return;
+    }
+
+    if (!isStorePickup) {
+      if (
+        !shippingAddress.streetAddress ||
+        !shippingAddress.city ||
+        !shippingAddress.state ||
+        !shippingAddress.zipCode ||
+        !shippingAddress.country
+      ) {
+        setAddressError(true);
+        return;
+      }
+    }
+
+    setContactError(false);
+    setAddressError(false);
+    onStepChange("payment");
+  };
+
   return (
-    <div className="col-span-1">
+    <div
+      className={`p-4 bg-neutral-100 rounded-md ${
+        currentStep === "shippingDetails" ? "" : "hidden"
+      }`}
+    >
       <p className="font-bold text-2xl mb-6">Shipping Details</p>
 
       <div className="grid grid-cols-2 gap-3 mb-3">
@@ -59,6 +107,12 @@ function ShippingAddressForm() {
           />
         </div>
       </div>
+      {contactError && (
+        <p className="text-sm font-medium text-red-400">
+          Please fill all the fields.
+        </p>
+      )}
+
       <div className="flex items-center space-x-2 mt-12 mb-4">
         <Checkbox
           id="storePickup"
@@ -86,7 +140,7 @@ function ShippingAddressForm() {
       </div>
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div className="col-span-2">
-          <Label>Apartment/Unit Number</Label>
+          <Label>Apartment/Unit Number (optional)</Label>
           <Input
             name="apartmentUnit"
             value={shippingAddress.apartmentUnit}
@@ -137,6 +191,17 @@ function ShippingAddressForm() {
             disabled={isStorePickup}
           />
         </div>
+      </div>
+      {addressError && (
+        <p className="text-sm font-medium text-red-400">
+          Please fill all the fields or choose store pickup.
+        </p>
+      )}
+      <div className="button-group flex justify-between gap-2 mt-4">
+        <Button onClick={() => onStepChange("orderDetails")}>
+          Back to Order Details
+        </Button>
+        <Button onClick={() => validateInput()}>Proceed to Payment</Button>
       </div>
     </div>
   );

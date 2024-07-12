@@ -5,10 +5,8 @@ import { ShippingAddress } from "../../types/interfaces";
 interface ShippingDetailsContextType {
   shippingAddress: ShippingAddress;
   isStorePickup: boolean;
-  areFieldsValid: boolean;
   updateShippingAddress: (e: React.ChangeEvent<HTMLInputElement>) => void;
   toggleIsStorePickup: () => void;
-  updateAreFieldsValid: () => void;
 }
 
 const ShippingDetailsContext = createContext<
@@ -34,8 +32,6 @@ export const ShippingDetailsProvider = ({
   });
 
   const [isStorePickup, setIsStorePickup] = useState(false);
-
-  const [areFieldsValid, setAreFieldsValid] = useState(false);
 
   const updateShippingAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,10 +62,8 @@ export const ShippingDetailsProvider = ({
       value={{
         shippingAddress,
         isStorePickup,
-        areFieldsValid,
         updateShippingAddress,
         toggleIsStorePickup,
-        updateAreFieldsValid,
       }}
     >
       {children}

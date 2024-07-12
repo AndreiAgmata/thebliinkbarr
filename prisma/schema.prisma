@@ -70,16 +70,23 @@ model Cart {
 
 model Order {
   id                String     @id @default(auto()) @map("_id") @db.ObjectId
+  orderId           String 
   customerId        String     @db.ObjectId
   customer          Customer   @relation(fields: [customerId], references: [id])
   firstName         String
   lastName          String
   isStorePickup     Boolean
-  shippingAddress   String
+  streetAddress     String
+  apartmentUnit     String
+  city              String
+  state             String
+  zipCode           String
+  country           String
   email             String
   phoneNumber       String
   items             OrderItem[]
   totalPrice        Float
+  paymentId         String
   status            String     
   createdAt         DateTime   @default(now())
 }

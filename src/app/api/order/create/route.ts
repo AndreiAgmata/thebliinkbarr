@@ -10,6 +10,36 @@ interface OrderItem {
   quantity: number;
 }
 
+async function generateUniqueOrderId(): Promise<string> {
+  let orderId;
+  let orderIdExists = true;
+
+  while (orderIdExists) {
+    // Generate a random 8-digit number
+    orderId = Math.floor(10000000 + Math.random() * 90000000)
+      .toString()
+      .substring(0, 8);
+
+    // Check if orderId already exists in the database
+    const existingOrder = await prisma.order.findFirst({
+      where: {
+        orderId: orderId,
+      },
+    });
+
+    // If no existing order found, set orderIdExists to false to exit the loop
+    if (!existingOrder) {
+      orderIdExists = false;
+    }
+  }
+
+  if (!orderId) {
+    throw new Error("Failed to generate a unique order ID");
+  }
+
+  return orderId;
+}
+
 export const POST = async (req: Request) => {
   try {
     const session = await getServerSession(nextAuthOptions);
@@ -27,45 +57,43 @@ export const POST = async (req: Request) => {
       firstName,
       lastName,
       isStorePickup,
-      shippingAddress,
+      streetAddress,
+      apartmentUnit,
+      city,
+      state,
+      zipCode,
+      country,
       email,
       phoneNumber,
       items,
       totalPrice,
+      paymentId,
       status,
     } = await req.json();
 
-    // Validate required fields
-    if (
-      !firstName ||
-      !lastName ||
-      !isStorePickup ||
-      !shippingAddress ||
-      !email ||
-      !phoneNumber ||
-      !items ||
-      !totalPrice ||
-      !status
-    ) {
-      return NextResponse.json(
-        { message: "Missing required fields" },
-        { status: 400 }
-      );
-    }
+    //generate order ID
+    const orderId = await generateUniqueOrderId();
 
     await connectToDb();
 
     const newOrder = await prisma.order.create({
       data: {
         customerId,
+        orderId,
         firstName,
         lastName,
         isStorePickup,
-        shippingAddress,
+        streetAddress,
+        apartmentUnit,
+        city,
+        state,
+        zipCode,
+        country,
         email,
         phoneNumber,
         totalPrice,
         status,
+        paymentId,
         items: {
           create: items.map((item: OrderItem) => ({
             productId: item.productId,

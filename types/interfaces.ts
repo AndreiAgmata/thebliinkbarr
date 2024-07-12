@@ -41,6 +41,7 @@ export interface OrderPayload {
   phoneNumber: string;
   items: OrderItemPayload[];
   totalPrice: number;
+  paymentId: string;
   status: string;
 }
 

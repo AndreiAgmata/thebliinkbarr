@@ -6,12 +6,21 @@ import {
   calculateSubTotal,
   calculateTotal,
 } from "../../../helpers/calculateTotalsHelper";
-import PlaceOrderButton from "./PlaceOrderButton";
+import { Button } from "../ui/button";
 
-function OrderDetails() {
+interface OrderDetailsProps {
+  currentStep: string;
+  onStepChange: (newStep: string) => void;
+}
+
+function OrderDetails({ currentStep, onStepChange }: OrderDetailsProps) {
   const { cart } = useCartContext();
   return (
-    <div className="col-span-1 p-4 bg-neutral-100 rounded-md flex flex-col">
+    <div
+      className={`p-4 bg-neutral-100 rounded-md flex flex-col ${
+        currentStep === "orderDetails" ? "" : "hidden"
+      }`}
+    >
       <p className="font-bold text-2xl mb-6">Order Details</p>
       <div className="content p-4 bg-white rounded-md flex flex-col justify-start items-start flex-1">
         <div className="cart-items w-full h-96 overflow-y-auto mb-4">
@@ -63,7 +72,11 @@ function OrderDetails() {
           </span>
         </div>
       </div>
-      <PlaceOrderButton />
+      <div className="button-group flex justify-end gap-2 mt-4">
+        <Button onClick={() => onStepChange("shippingDetails")}>
+          Proceed to Shipping Details
+        </Button>
+      </div>
     </div>
   );
 }
