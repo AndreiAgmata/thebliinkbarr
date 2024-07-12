@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDb } from "../../../../../helpers/serverHelpers";
 import prisma from "../../../../../prisma";
 import bcrypt from "bcrypt";
+import { sendWelcomeEmail } from "../../../../../helpers/sendWelcomeEmailHelp";
 
 export const POST = async (req: Request) => {
   try {
@@ -38,6 +39,7 @@ export const POST = async (req: Request) => {
 
     const newUser = await prisma.customer.create({ data: newUserDetails });
 
+    await sendWelcomeEmail(email);
     return NextResponse.json({ newUser }, { status: 201 });
   } catch (error) {
     console.log(error);
