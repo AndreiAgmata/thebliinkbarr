@@ -94,6 +94,7 @@ export const POST = async (req: Request) => {
         totalPrice,
         status,
         paymentId,
+        trackingNumber: "",
         items: {
           create: items.map((item: OrderItem) => ({
             productId: item.productId,

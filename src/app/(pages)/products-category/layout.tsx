@@ -19,7 +19,7 @@ export default function Layout({
             <div className="menu-options grid grid-cols-4 gap-1 pt-2">
               <Link
                 href={"/products-category/all"}
-                className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4  ${
+                className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4 ${
                   pathName.includes("/all")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"

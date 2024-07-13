@@ -38,7 +38,7 @@ export const createOrderPayload = (
     items: orderItems,
     totalPrice,
     paymentId: paymentId,
-    status: "Processing", // Set the initial order status
+    status: "Unfulfilled",
   };
 
   return orderPayload;

@@ -87,7 +87,8 @@ model Order {
   items             OrderItem[]
   totalPrice        Float
   paymentId         String
-  status            String     
+  status            String 
+  trackingNumber    String    
   createdAt         DateTime   @default(now())
 }
 

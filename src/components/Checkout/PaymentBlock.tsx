@@ -107,7 +107,7 @@ function PaymentBlock({
       }
       const data = await response.json();
       setLoading(false);
-      router.push(`/order-confirmation/${data.newOrder.id}`);
+      router.push(`/order/${data.newOrder.id}`);
       clearCart();
     } catch (error) {
       console.error("Failed to submit order:", error);
@@ -140,7 +140,7 @@ function PaymentBlock({
         disabled={!stripe || loading || cart.length === 0}
         className="text-white w-full p-5 bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
       >
-        {!loading ? `Pay $${amount}` : "Processing..."}
+        {!loading ? `Confirm Payment` : "Processing..."}
       </button>
       <div className="button-group flex justify-between gap-2 mt-4">
         <Button onClick={() => onStepChange("shippingDetails")}>

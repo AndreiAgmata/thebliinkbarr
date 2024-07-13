@@ -21,7 +21,7 @@ export default function Layout({
             <div className="menu-options flex flex-col gap-1 pt-2">
               <Link
                 href={"/account/accountDetails"}
-                className={`font-medium ps-4 py-2  ${
+                className={`font-medium ps-4 py-2 rounded-sm ${
                   pathName.includes("/accountDetails")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"
@@ -31,7 +31,7 @@ export default function Layout({
               </Link>
               <Link
                 href={"/account/orders"}
-                className={`font-medium ps-4 py-2  ${
+                className={`font-medium ps-4 py-2 rounded-sm  ${
                   pathName.includes("/orders")
                     ? "bg-pink-300"
                     : "hover:bg-neutral-50"
