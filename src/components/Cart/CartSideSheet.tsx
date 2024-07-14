@@ -47,15 +47,19 @@ function CartSideSheet({ cart }: { cart: CartItem[] }) {
               </span>
               <span className="flex justify-between">
                 <p className="font-medium text-[0.90rem]">Shipping: </p>
-                <p className="text-[0.90rem]">${calculateShipping(cart)}</p>
+                <p className="text-[0.90rem]">(TBD)</p>
               </span>
               <span className="flex justify-between">
                 <p className="font-medium text-[0.90rem]">HST: </p>
-                <p className="text-[0.90rem]">${calculateHST(cart)}</p>
+                <p className="text-[0.90rem]">
+                  ${parseFloat((calculateSubTotal(cart) * 0.13).toFixed(2))}
+                </p>
               </span>
               <span className="flex justify-between mt-4">
                 <p className="font-bold">Total: </p>
-                <p className="font-bold">${calculateTotal(cart)}</p>
+                <p className="font-bold">
+                  ${parseFloat((calculateSubTotal(cart) * 1.13).toFixed(2))}
+                </p>
               </span>
             </div>
             <SheetClose asChild>

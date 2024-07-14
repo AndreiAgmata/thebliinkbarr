@@ -20,7 +20,7 @@ export const createOrderPayload = (
   }));
 
   // Calculate total price
-  const totalPrice = calculateTotal(cart);
+  const totalPrice = calculateTotal(cart, isStorePickup);
 
   // Create order payload
   const orderPayload: OrderPayload = {

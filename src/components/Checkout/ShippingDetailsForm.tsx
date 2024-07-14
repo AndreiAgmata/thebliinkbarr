@@ -60,11 +60,7 @@ function ShippingAddressForm({
   };
 
   return (
-    <div
-      className={`p-4 bg-neutral-100 rounded-md ${
-        currentStep === "shippingDetails" ? "" : "hidden"
-      }`}
-    >
+    <div className="col-span-1">
       <p className="font-bold text-2xl mb-6">Shipping Details</p>
 
       <div className="grid grid-cols-2 gap-3 mb-3">
@@ -197,10 +193,7 @@ function ShippingAddressForm({
           Please fill all the fields or choose store pickup.
         </p>
       )}
-      <div className="button-group flex justify-between gap-2 mt-4">
-        <Button onClick={() => onStepChange("orderDetails")}>
-          Back to Order Details
-        </Button>
+      <div className="button-group flex justify-end gap-2 mt-4">
         <Button onClick={() => validateInput()}>Proceed to Payment</Button>
       </div>
     </div>

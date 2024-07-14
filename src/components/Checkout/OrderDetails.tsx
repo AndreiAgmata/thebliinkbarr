@@ -1,26 +1,21 @@
 import { useCartContext } from "@/context/CartContext";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   calculateHST,
   calculateShipping,
   calculateSubTotal,
   calculateTotal,
 } from "../../../helpers/calculateTotalsHelper";
-import { Button } from "../ui/button";
+import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
 
-interface OrderDetailsProps {
-  currentStep: string;
-  onStepChange: (newStep: string) => void;
-}
-
-function OrderDetails({ currentStep, onStepChange }: OrderDetailsProps) {
+function OrderDetails() {
   const { cart } = useCartContext();
+  const { shippingAddress, isStorePickup } = useShippingDetailsContext();
+
+  useEffect(() => {}, [isStorePickup]);
+
   return (
-    <div
-      className={`p-4 bg-neutral-100 rounded-md flex flex-col ${
-        currentStep === "orderDetails" ? "" : "hidden"
-      }`}
-    >
+    <div className="col-span-1 flex flex-col">
       <p className="font-bold text-2xl mb-6">Order Details</p>
       <div className="content p-4 bg-white rounded-md flex flex-col justify-start items-start flex-1">
         <div className="cart-items w-full h-96 overflow-y-auto mb-4">
@@ -60,22 +55,23 @@ function OrderDetails({ currentStep, onStepChange }: OrderDetailsProps) {
           </span>
           <span className="flex justify-between">
             <p className="font-medium text-[0.90rem]">Shipping: </p>
-            <p className="text-[0.90rem]">${calculateShipping(cart)}</p>
+            <p className="text-[0.90rem]">
+              {calculateShipping(cart, isStorePickup) === 15
+                ? `$${calculateShipping(cart, isStorePickup)}`
+                : "FREE"}
+            </p>
           </span>
           <span className="flex justify-between">
             <p className="font-medium text-[0.90rem]">HST: </p>
-            <p className="text-[0.90rem]">${calculateHST(cart)}</p>
+            <p className="text-[0.90rem]">
+              ${calculateHST(cart, isStorePickup)}
+            </p>
           </span>
           <span className="flex justify-between mt-4">
             <p className="font-bold">Total: </p>
-            <p className="font-bold">${calculateTotal(cart)}</p>
+            <p className="font-bold">${calculateTotal(cart, isStorePickup)}</p>
           </span>
         </div>
-      </div>
-      <div className="button-group flex justify-end gap-2 mt-4">
-        <Button onClick={() => onStepChange("shippingDetails")}>
-          Proceed to Shipping Details
-        </Button>
       </div>
     </div>
   );

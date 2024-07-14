@@ -2,6 +2,7 @@ import React from "react";
 import { connectToDb } from "../../../../../helpers/serverHelpers";
 import prisma from "../../../../../prisma";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 const getOrder = async (id: string) => {
   try {
@@ -34,13 +35,20 @@ async function OrderConfirmationPageWithOrderId({
 }) {
   const { id } = params;
   const order = await getOrder(id);
-  console.log(order);
+
+  if (!order) {
+    redirect("/");
+  }
+
   return (
     <div className="container mx-auto min-h-[500px] mb-24">
       <div className="content bg-neutral-100 p-4 rounded-md mt-8">
         <h1 className="text-2xl font-bold ">
           Confirmation for Order #{order?.orderId}
         </h1>
+        <h2>
+          <strong>Order Total:</strong> ${order.totalPrice}
+        </h2>
         <div className="shipping-details mt-4">
           <p className="text-lx font-bold mb-4">Shipping Details:</p>
           <p className="text-sm">
@@ -65,7 +73,7 @@ async function OrderConfirmationPageWithOrderId({
             </>
           )}
           <div className="order-items-table mt-4 p-4 bg-white rounded-md max-h-96 overflow-y-auto">
-            <p className="text-xl font-bold">Order Items:</p>
+            <p className="text-lg font-bold">Order Items:</p>
             {order?.items.map((orderItem) => (
               <div
                 className="cart-item grid grid-cols-4 gap-2 relative hover:bg-neutral-100 p-2 rounded-sm"

@@ -2,11 +2,18 @@ import React from "react";
 import { connectToDb } from "../../../helpers/serverHelpers";
 import prisma from "../../../prisma";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import nextAuthOptions from "@/lib/AuthOptions";
+import { redirect } from "next/navigation";
 
-const getAllOrders = async () => {
+const getAllOrders = async (id: string) => {
   try {
     await connectToDb();
-    const order = await prisma.order.findMany({});
+    const order = await prisma.order.findMany({
+      where: {
+        customerId: id,
+      },
+    });
     return order;
   } catch (error) {
     console.log(error);
@@ -16,7 +23,13 @@ const getAllOrders = async () => {
 };
 
 async function Orders() {
-  const orders = await getAllOrders();
+  const session = await getServerSession(nextAuthOptions);
+
+  if (!session) {
+    redirect("/auth/login");
+  }
+
+  const orders = await getAllOrders(session?.user.id);
   return (
     <div className="w-full p-4">
       <div className="orders-list grid grid-cols-1 gap-3">

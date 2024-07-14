@@ -9,6 +9,7 @@ import convertToSubCurrency from "@/lib/convertToSubCurrency";
 import { useCartContext } from "@/context/CartContext";
 import { calculateTotal } from "../../../../helpers/calculateTotalsHelper";
 import PaymentBlock from "@/components/Checkout/PaymentBlock";
+import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is undefined");
@@ -18,6 +19,11 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 function CheckoutPage() {
   const { cart } = useCartContext();
+  const { isStorePickup } = useShippingDetailsContext();
+  const amount =
+    calculateTotal(cart, isStorePickup) > 0
+      ? calculateTotal(cart, isStorePickup)
+      : 15;
 
   const [currentStep, setCurrentStep] = useState("orderDetails");
   const handleStepChange = (newStep: string) => {
@@ -41,15 +47,19 @@ function CheckoutPage() {
           check your spam.
         </p>
       </div>
-      <div className="order-details-step mt-12">
-        <OrderDetails
-          currentStep={currentStep}
-          onStepChange={handleStepChange}
-        />
-        <ShippingDetailsForm
-          currentStep={currentStep}
-          onStepChange={handleStepChange}
-        />
+      <div className="order-checkout-step mt-12">
+        <div
+          className={`order-details grid grid-cols-2 gap-6 p-4 bg-neutral-100 rounded-md ${
+            currentStep === "orderDetails" ? "" : "hidden"
+          }`}
+        >
+          <OrderDetails />
+          <ShippingDetailsForm
+            currentStep={currentStep}
+            onStepChange={handleStepChange}
+          />
+        </div>
+
         <div
           className={`payment-step ${
             currentStep === "payment" ? "" : "hidden"
@@ -59,12 +69,12 @@ function CheckoutPage() {
             stripe={stripePromise}
             options={{
               mode: "payment",
-              amount: convertToSubCurrency(calculateTotal(cart)),
+              amount: convertToSubCurrency(amount),
               currency: "cad",
             }}
           >
             <PaymentBlock
-              amount={calculateTotal(cart)}
+              amount={amount}
               onStepChange={handleStepChange}
               currentStep={currentStep}
             />

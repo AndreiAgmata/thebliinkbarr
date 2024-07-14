@@ -80,7 +80,6 @@ function PaymentBlock({
       setLoading(false);
     } else {
       const paymentId = paymentIntent.id;
-
       const orderPayload = createOrderPayload(
         cart,
         shippingAddress,
@@ -106,9 +105,11 @@ function PaymentBlock({
         throw new Error(`Error: ${response.statusText}`);
       }
       const data = await response.json();
-      setLoading(false);
-      router.push(`/order/${data.newOrder.id}`);
-      clearCart();
+
+      if (data) {
+        router.push(`/order/${data.newOrder.id}`);
+        clearCart();
+      }
     } catch (error) {
       console.error("Failed to submit order:", error);
     }
@@ -131,9 +132,23 @@ function PaymentBlock({
 
   return (
     <form onSubmit={handleSubmit} className="bg-neutral-100 p-4 rounded-md">
-      <p className="font-bold text-2xl mb-6">
-        Purchase Total : ${calculateTotal(cart)} CAD
-      </p>
+      {loading ? (
+        <div className="loader flex items-center justify-start gap-2 mb-6">
+          <p className="font-bold text-2xl">Processing Order</p>
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      ) : (
+        <p className="font-bold text-2xl mb-6">
+          Purchase Total : ${calculateTotal(cart, isStorePickup)} CAD
+        </p>
+      )}
       {clientSecret && <PaymentElement />}
       {errorMessage && <div>{errorMessage}</div>}
       <button
@@ -143,8 +158,8 @@ function PaymentBlock({
         {!loading ? `Confirm Payment` : "Processing..."}
       </button>
       <div className="button-group flex justify-between gap-2 mt-4">
-        <Button onClick={() => onStepChange("shippingDetails")}>
-          Back to Shipping Details
+        <Button onClick={() => onStepChange("orderDetails")}>
+          Back to Order Details
         </Button>
       </div>
     </form>
