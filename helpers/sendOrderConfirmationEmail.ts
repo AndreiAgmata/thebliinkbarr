@@ -34,7 +34,7 @@ export async function sendOrderConfirmationEmail(
     const mailOptions = {
       from: user,
       to: email,
-      subject: "Welcome Email",
+      subject: `Confirmation for Order# ${orderNumber}`,
       html: htmlContent,
     };
 
