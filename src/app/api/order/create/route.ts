@@ -45,14 +45,7 @@ export const POST = async (req: Request) => {
   try {
     const session = await getServerSession(nextAuthOptions);
 
-    if (!session) {
-      return NextResponse.json(
-        { message: "Unauthorized request" },
-        { status: 401 }
-      );
-    }
-
-    const customerId = session.user.id;
+    const customerId = session ? session.user.id : null;
 
     const {
       firstName,

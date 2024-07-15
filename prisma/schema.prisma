@@ -72,8 +72,8 @@ model Cart {
 model Order {
   id                String     @id @default(auto()) @map("_id") @db.ObjectId
   orderId           String 
-  customerId        String     @db.ObjectId
-  customer          Customer   @relation(fields: [customerId], references: [id])
+  customerId        String?     @db.ObjectId
+  customer          Customer?   @relation(fields: [customerId], references: [id])
   firstName         String
   lastName          String
   isStorePickup     Boolean
