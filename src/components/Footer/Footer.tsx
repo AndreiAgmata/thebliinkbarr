@@ -7,7 +7,7 @@ import { HiOutlineMailOpen } from "react-icons/hi";
 
 function Footer() {
   return (
-    <footer>
+    <footer className="flex flex-col items-center justify-center relative">
       <div className="w-screen relative h-16 lg:h-40">
         <Image
           src={"/PageAssets/footerDivider.svg"}
@@ -92,6 +92,9 @@ function Footer() {
           </div>
         </div>
       </div>
+      <p className="text-xs text-black absolute bottom-2">
+        Designed and Developed By Code Labs &copy; 2024
+      </p>
     </footer>
   );
 }
