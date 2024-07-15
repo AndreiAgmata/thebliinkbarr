@@ -36,11 +36,15 @@ async function Orders() {
         {orders?.map((order) => (
           <Link
             href={`/order/${order.id}`}
-            className="order-card p-4 bg-neutral-100 rounded-md"
+            className="order-card p-4 bg-neutral-100 rounded-md hover:scale-[1.01] transition duration-150"
             key={order.id}
           >
             <p className="text-lg mb-3">
               <strong>Order#: {order.orderId}</strong>
+            </p>
+            <p className="text-sm mb-1">
+              <strong>Order Date: </strong>
+              {order.createdAt.toDateString()}
             </p>
             <p className="text-sm mb-1">
               <strong>Status: </strong>

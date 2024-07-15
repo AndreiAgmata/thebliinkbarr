@@ -37,7 +37,7 @@ export default function Layout({
               >
                 Lash Trays
               </Link>
-              <Link
+              {/* <Link
                 href={"/products-category/tweezers"}
                 className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4 ${
                   pathName.includes("/tweezers")
@@ -46,7 +46,7 @@ export default function Layout({
                 }`}
               >
                 Tweezers
-              </Link>
+              </Link> */}
               <Link
                 href={"/products-category/accessories"}
                 className={`font-medium ps-4 py-2 rounded-sm col-span-2 lg:col-span-4 ${

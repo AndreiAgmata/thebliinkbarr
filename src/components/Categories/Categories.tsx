@@ -35,7 +35,7 @@ function Categories() {
           </Link>
           <Link
             href={"/products-category/tweezers"}
-            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md hover:scale-[1.05] transition duration-150 aspect-square relative"
+            className="category-card-1 col-span-2 lg:col-span-1 lg:w-56 lg:h-56 bg-white rounded-xl p-4 flex flex-col items-center justify-center gap-4 border-none drop-shadow-md aspect-square relative"
             style={{
               backgroundImage: "url('/ItemImages/tweezer.jpg')",
               backgroundRepeat: "no-repeat",
@@ -45,7 +45,7 @@ function Categories() {
           >
             <div className="overlay absolute top-0 rounded-xl w-full h-full bg-pink-100 opacity-40"></div>
             <p className="text-xl lg:text-3xl font-bold text-neutral-50 z-10 drop-shadow-lg">
-              TWEEZERS
+              Coming Soon
             </p>
           </Link>
           <Link
