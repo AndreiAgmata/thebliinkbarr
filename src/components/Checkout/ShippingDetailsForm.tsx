@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 
 import { Checkbox } from "../ui/checkbox";
 import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
+import { useCartContext } from "@/context/CartContext";
 
 interface ShippingDetailsProps {
   currentStep: string;
@@ -23,6 +24,8 @@ function ShippingAddressForm({
     updateShippingAddress,
     toggleIsStorePickup,
   } = useShippingDetailsContext();
+
+  const { cart } = useCartContext();
 
   const [contactError, setContactError] = useState(false);
   const [addressError, setAddressError] = useState(false);
@@ -194,7 +197,9 @@ function ShippingAddressForm({
         </p>
       )}
       <div className="button-group flex justify-end gap-2 mt-4">
-        <Button onClick={() => validateInput()}>Proceed to Payment</Button>
+        <Button onClick={() => validateInput()} disabled={cart.length <= 0}>
+          Proceed to Payment
+        </Button>
       </div>
     </div>
   );
