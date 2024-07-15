@@ -11,6 +11,7 @@ export interface Variation {
   id: string;
   length: number | null;
   curlType: string | null;
+  shape: string | null;
   price: number;
   stock: number;
   sales: number;
@@ -24,6 +25,7 @@ export interface CartItem {
   price: number;
   length: number | null;
   curlType: string | null;
+  shape: string | null;
   quantity: number;
 }
 

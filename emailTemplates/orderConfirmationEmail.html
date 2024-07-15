@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Template</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #ffffff;
+        color: #ffffff;
+        border-radius: 8px;
+      }
+      .content {
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        color: rgb(0, 0, 0);
+      }
+      .footer {
+        text-align: center;
+        padding-bottom: 5px;
+        background-color: #ffffff;
+        color: #000000;
+        border-radius: 8px;
+      }
+      .regards {
+        margin-top: 50px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .header,
+        .footer .container {
+          background-color: #ffffff;
+        }
+        .body {
+          background-color: #ffffff;
+        }
+        .content {
+          background-color: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img
+          src="https://res.cloudinary.com/dko71zmmd/image/upload/f_auto,q_auto/wssk8whag2ry1g5pzhes"
+          alt="Logo"
+          style="
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+          "
+        />
+      </div>
+      <div class="content">
+        <p><strong>Order# {{orderNumber}}</strong></p>
+        <p>Thank you for shopping with TheBliinkBarr!</p>
+        <p>
+          Click on this
+          <a
+            href="https://thebliinkbarr.com/order/{{orderId}}"
+            style="color: pink"
+            ><strong>link</strong></a
+          >
+          to view your order details, status, and tracking number.
+        </p>
+        <p style="font-size: 0.75rem">
+          Reminder: For pickup orders, please wait for the Ready For Pickup
+          email confirmation before coming to the studio.
+        </p>
+        <div class="regards">
+          <p>Best regards,</p>
+          <p><strong>Joyce</strong></p>
+        </div>
+      </div>
+      <div class="footer" style="font-size: 0.75rem">
+        <p>&copy; 2024 TheBliinkBarr. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

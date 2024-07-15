@@ -10,53 +10,13 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
   const { addToCart } = useCartContext();
   const [quantity, setQuantity] = useState(1);
   const [curlType, setCurlType] = useState("");
+  const [shape, setShape] = useState("");
   const [length, setLength] = useState("");
-  const [areOptionsValid, setAreOptionsValid] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
-  //Options and stock vs quantity validations
   useEffect(() => {
     setIsAddedToCart(false);
-    const isSingleVariation = productDetails.variations.length === 1;
-
-    const checkIfOptionsAreValid = () => {
-      if (curlType === "" || length === "") {
-        setAreOptionsValid(false);
-      } else {
-        setAreOptionsValid(true);
-      }
-    };
-
-    const checkIfStockCanCoverQuantity = () => {
-      if (isSingleVariation) {
-        if (productDetails.variations[0].stock - quantity > 0) {
-          setAreOptionsValid(true);
-        } else {
-          setAreOptionsValid(false);
-        }
-      } else {
-        for (const variation of productDetails.variations) {
-          if (
-            variation.length === parseInt(length) &&
-            variation.curlType === curlType
-          ) {
-            if (variation.stock - quantity > 0) {
-              setAreOptionsValid(true);
-              break;
-            } else {
-              setAreOptionsValid(false);
-            }
-          }
-        }
-      }
-    };
-
-    if (!isSingleVariation) {
-      checkIfOptionsAreValid();
-    }
-
-    checkIfStockCanCoverQuantity();
-  }, [productDetails, length, curlType, quantity]);
+  }, [length, curlType, shape, quantity]);
 
   const findVariationIdAndCreateCartItemObject = async () => {
     const isSingleVariation = productDetails.variations.length === 1;
@@ -64,11 +24,18 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
 
     if (isSingleVariation) {
       selectedVariation = productDetails.variations[0];
-    } else {
+    } else if (
+      productDetails.variations[0].length !== 0 &&
+      productDetails.variations[0].curlType !== ""
+    ) {
       selectedVariation = productDetails.variations.find(
         (variation) =>
           variation.length === parseInt(length) &&
           variation.curlType === curlType
+      );
+    } else {
+      selectedVariation = productDetails.variations.find(
+        (variation) => variation.shape === shape
       );
     }
 
@@ -80,6 +47,7 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
         imageLink: productDetails.imageLink,
         price: selectedVariation.price,
         length: selectedVariation.length,
+        shape: selectedVariation.shape,
         curlType: selectedVariation.curlType,
         quantity: quantity,
       };
@@ -107,8 +75,11 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
           ${productDetails.variations[0].price} CAD
         </p>
         <div
-          className={`curl-type-toggle-wrapper mb-4 ${
-            productDetails.variations.length === 1 ? "hidden" : ""
+          className={`lash-variations-toggle-wrapper mb-4 ${
+            productDetails.variations[0].length === 0 &&
+            productDetails.variations[0].curlType === ""
+              ? "hidden"
+              : ""
           }`}
         >
           <p className="font-medium mb-2 text-lg">Curl Type:</p>
@@ -120,12 +91,7 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
               D
             </ToggleGroupItem>
           </ToggleGroup>
-        </div>
-        <div
-          className={`length-toggle-wrapper mb-4 ${
-            productDetails.variations.length === 1 ? "hidden" : ""
-          }`}
-        >
+
           <p className="font-medium mb-2 text-lg">Length:</p>
           <ToggleGroup
             type="single"
@@ -142,6 +108,24 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
             ))}
           </ToggleGroup>
         </div>
+        <div
+          className={`glue-ring-variations-toggle-wrapper mb-4 ${
+            productDetails.variations[0].shape === "" ? "hidden" : ""
+          }`}
+        >
+          <p className="font-medium mb-2 text-lg">Shape:</p>
+          <ToggleGroup type="single" onValueChange={(value) => setShape(value)}>
+            {productDetails.variations.map((variation: Variation) => (
+              <ToggleGroupItem
+                value={variation.shape ? variation.shape : ""}
+                key={variation.id}
+                className="w-20"
+              >
+                {variation.shape?.toUpperCase()}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
         <div className="quantity-toggle-wrapper mb-4">
           <p className="font-medium mb-2 text-lg">Quantity:</p>
           <div className="quantity-buttons flex flex-row items-center">
@@ -154,14 +138,19 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
               -
             </Button>
             <p className="w-10 text-center">{quantity}</p>
-            <Button onClick={() => setQuantity(quantity + 1)}>+</Button>
+            <Button
+              onClick={() => setQuantity(quantity + 1)}
+              disabled={quantity >= 10}
+            >
+              +
+            </Button>
           </div>
         </div>
         {isAddedToCart && <p className="mb-2 text-pink-300">Added To Cart</p>}
         <div className="button-wrapper mb-4 col-span-2">
           <Button
             className="w-full"
-            disabled={!areOptionsValid}
+            disabled={quantity > 10}
             onClick={() => findVariationIdAndCreateCartItemObject()}
           >
             Add To Cart

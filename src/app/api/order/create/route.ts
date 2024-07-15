@@ -3,6 +3,7 @@ import { connectToDb } from "../../../../../helpers/serverHelpers";
 import prisma from "../../../../../prisma";
 import { getServerSession } from "next-auth";
 import nextAuthOptions from "@/lib/AuthOptions";
+import { sendOrderConfirmationEmail } from "../../../../../helpers/sendOrderConfirmationEmail";
 
 interface OrderItem {
   productId: string;
@@ -107,6 +108,12 @@ export const POST = async (req: Request) => {
         items: true,
       },
     });
+
+    await sendOrderConfirmationEmail(
+      newOrder.email,
+      newOrder.id,
+      newOrder.orderId
+    );
 
     return NextResponse.json({ newOrder }, { status: 200 });
   } catch (error) {

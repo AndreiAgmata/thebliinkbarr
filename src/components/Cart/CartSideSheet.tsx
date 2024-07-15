@@ -37,7 +37,6 @@ function CartSideSheet({ cart }: { cart: CartItem[] }) {
               />
             ))}
           </div>
-
           <SheetFooter className="mt-auto flex flex-col">
             <div className="totals-wrapper p-2 bg-neutral-100 rounded-sm">
               <p className="font-bold text-xl mb-2">Cart Total</p>

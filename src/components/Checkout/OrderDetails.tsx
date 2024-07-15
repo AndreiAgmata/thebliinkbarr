@@ -39,6 +39,14 @@ function OrderDetails() {
                 <p className="text-xs font-bold inline">Length: </p>
                 <p className="text-xs inline">{cartItemDetails.length}mm</p>
               </span>
+              <span
+                className={`block ${cartItemDetails.shape ? "" : "hidden"}`}
+              >
+                <p className="text-xs font-bold inline">Shape: </p>
+                <p className="text-xs inline">
+                  {cartItemDetails.shape?.toUpperCase()}
+                </p>
+              </span>
               <span className="block">
                 <p className="text-xs text-pink-300 inline">
                   {cartItemDetails.quantity} x ${cartItemDetails.price}

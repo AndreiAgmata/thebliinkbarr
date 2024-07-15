@@ -5,6 +5,7 @@ import prisma from "../../../../../prisma";
 interface Variation {
   length: number;
   curlType: string;
+  shape: string;
   price: number;
   stock: number;
   sales: number;
@@ -33,6 +34,7 @@ export const POST = async (req: Request) => {
           create: variations.map((variation: Variation) => ({
             length: variation.length,
             curlType: variation.curlType,
+            shape: variation.shape,
             price: variation.price,
             stock: variation.stock,
             sales: variation.sales,

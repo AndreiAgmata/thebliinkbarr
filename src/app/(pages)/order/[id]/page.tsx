@@ -115,6 +115,16 @@ async function OrderConfirmationPageWithOrderId({
                       {orderItem.variation?.length}mm
                     </p>
                   </span>
+                  <span
+                    className={`block ${
+                      orderItem.variation?.shape ? "" : "hidden"
+                    }`}
+                  >
+                    <p className="text-xs font-bold inline">Shape: </p>
+                    <p className="text-xs inline">
+                      {orderItem.variation?.shape.toUpperCase()}
+                    </p>
+                  </span>
                   <span className="block">
                     <p className="text-xs text-pink-300 inline">
                       {orderItem.quantity} x ${orderItem.variation?.price}

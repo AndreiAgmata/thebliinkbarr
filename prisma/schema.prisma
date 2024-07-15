@@ -41,6 +41,7 @@ model Variation {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   length    Int
   curlType  String
+  shape     String
   price     Float
   stock     Int
   sales     Int

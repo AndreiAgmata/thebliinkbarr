@@ -26,14 +26,36 @@ function CartItemCard({ cartItemDetails }: { cartItemDetails: CartItem }) {
       </div>
       <div className="details-wrapper col-span-3">
         <p className="text-medium font-medium">{cartItemDetails.name}</p>
-        <span className={`block ${cartItemDetails.curlType ? "" : "hidden"}`}>
-          <p className="text-xs font-bold inline">Curl Type: </p>
-          <p className="text-xs inline">{cartItemDetails.curlType}</p>
-        </span>
-        <span className={`block ${cartItemDetails.length ? "" : "hidden"}`}>
-          <p className="text-xs font-bold inline">Length: </p>
-          <p className="text-xs inline">{cartItemDetails.length}mm</p>
-        </span>
+        <div
+          className={
+            cartItemDetails.curlType || cartItemDetails.length
+              ? "block"
+              : "hidden"
+          }
+        >
+          {cartItemDetails.curlType && (
+            <span className="block">
+              <p className="text-xs font-bold inline">Curl Type: </p>
+              <p className="text-xs inline">{cartItemDetails.curlType}</p>
+            </span>
+          )}
+          {cartItemDetails.length && (
+            <span className="block">
+              <p className="text-xs font-bold inline">Length: </p>
+              <p className="text-xs inline">{cartItemDetails.length}mm</p>
+            </span>
+          )}
+        </div>
+        <div className={cartItemDetails.shape ? "block" : "hidden"}>
+          {cartItemDetails.shape && (
+            <span className="block">
+              <p className="text-xs font-bold inline">Shape: </p>
+              <p className="text-xs inline">
+                {cartItemDetails.shape.toUpperCase()}
+              </p>
+            </span>
+          )}
+        </div>
         <span className="block">
           <p className="text-xs text-pink-300 inline">
             {cartItemDetails.quantity} x ${cartItemDetails.price}
