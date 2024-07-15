@@ -49,6 +49,15 @@ async function OrderConfirmationPageWithOrderId({
         <h2>
           <strong>Order Total:</strong> ${order.totalPrice}
         </h2>
+        <h2>
+          <strong>Status:</strong> {order.status}
+        </h2>
+        <h2 className={`${order.isStorePickup ? "hidden" : ""}`}>
+          <strong>Tracking number:</strong>{" "}
+          {order.trackingNumber === ""
+            ? "Not yet shipped"
+            : order.trackingNumber}
+        </h2>
         <div className="shipping-details mt-4">
           <p className="text-lx font-bold mb-4">Shipping Details:</p>
           <p className="text-sm">

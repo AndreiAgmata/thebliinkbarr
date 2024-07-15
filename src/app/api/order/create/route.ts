@@ -16,19 +16,16 @@ async function generateUniqueOrderId(): Promise<string> {
   let orderIdExists = true;
 
   while (orderIdExists) {
-    // Generate a random 8-digit number
     orderId = Math.floor(10000000 + Math.random() * 90000000)
       .toString()
       .substring(0, 8);
 
-    // Check if orderId already exists in the database
     const existingOrder = await prisma.order.findFirst({
       where: {
         orderId: orderId,
       },
     });
 
-    // If no existing order found, set orderIdExists to false to exit the loop
     if (!existingOrder) {
       orderIdExists = false;
     }
@@ -65,11 +62,14 @@ export const POST = async (req: Request) => {
       status,
     } = await req.json();
 
-    //generate order ID
+    // Generate order ID
     const orderId = await generateUniqueOrderId();
 
     await connectToDb();
 
+    let updatedItems = [];
+
+    // Create order in database
     const newOrder = await prisma.order.create({
       data: {
         customerId,
@@ -102,13 +102,45 @@ export const POST = async (req: Request) => {
       },
     });
 
+    // Update stock quantities
+    for (const item of items) {
+      const { productId, variationId, quantity } = item;
+
+      // Retrieve product variation and update stock
+      const existingVariation = await prisma.variation.findUnique({
+        where: {
+          id: variationId,
+        },
+        select: {
+          stock: true,
+        },
+      });
+
+      if (existingVariation) {
+        const updatedStock = existingVariation.stock - quantity;
+
+        // Update stock in database
+        const updatedVariation = await prisma.variation.update({
+          where: {
+            id: variationId,
+          },
+          data: {
+            stock: updatedStock,
+          },
+        });
+
+        updatedItems.push(updatedVariation);
+      }
+    }
+
+    // Send order confirmation email
     await sendOrderConfirmationEmail(
       newOrder.email,
       newOrder.id,
       newOrder.orderId
     );
 
-    return NextResponse.json({ newOrder }, { status: 200 });
+    return NextResponse.json({ newOrder, updatedItems }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
