@@ -46,6 +46,9 @@ async function OrderConfirmationPageWithOrderId({
         <h1 className="text-2xl font-bold ">
           Confirmation for Order #{order?.orderId}
         </h1>
+        <p className="text-sm italic mb-4">
+          Order Placed on: {order.createdAt.toLocaleString()}
+        </p>
         <h2>
           <strong>Order Total:</strong> ${order.totalPrice}
         </h2>
