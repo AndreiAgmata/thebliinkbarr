@@ -11,11 +11,11 @@ import { calculateTotal } from "../../../../helpers/calculateTotalsHelper";
 import PaymentBlock from "@/components/Checkout/PaymentBlock";
 import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
 
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
-  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is undefined");
+if (process.env.NEXT_PUBLIC_STRIPE_LIVE_KEY === undefined) {
+  throw new Error("NEXT_PUBLIC_STRIPE_LIVE_KEY is undefined");
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE_KEY);
 
 function CheckoutPage() {
   const { cart } = useCartContext();
