@@ -44,7 +44,7 @@ function CheckoutPage() {
       </div>
       <div className="order-checkout-step mt-12">
         <div
-          className={`order-details grid grid-cols-2 gap-6 p-4 bg-neutral-100 rounded-md ${
+          className={`order-details grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 bg-neutral-100 rounded-md ${
             currentStep === "orderDetails" ? "" : "hidden"
           }`}
         >
