@@ -12,9 +12,8 @@ function Hero() {
             Hey Loves! Welcome to The Blinks Club
           </h1>
           <p className="w-full 0 md:w-96 text-sm leading-6 mb-5 text-center lg:text-left">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-            obcaecati amet ipsa, dolor, tenetur adipisci fugit eum nam dolores
-            inventore.
+            Hey, It&apos;s Libs, the face behind the tweezers. Thank you for
+            choosing me as your lash tech and shopping with TheBliinkBarr.
           </p>
           <div className="buttons flex flex-col lg:flex-row gap-2 w-full 0 md:w-96">
             <ShopNowButton />
