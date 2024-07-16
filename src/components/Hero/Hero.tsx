@@ -12,8 +12,9 @@ function Hero() {
             Hey Loves! Welcome to The Blinks Club
           </h1>
           <p className="w-full 0 md:w-96 text-sm leading-6 mb-5 text-center lg:text-left">
-            Hey, It&apos;s Libs, the face behind the tweezers. Thank you for
-            choosing me as your lash tech and shopping with TheBliinkBarr.
+            {
+              "Finally! You can shop and book your appointments all together. Shop our LUXURY MATTE CASHMERE LASH TRAYS that are prefect for all Lash techs. Lashing couldn't be more easier! Especially when you have quality Lash trays and accessories that help cut down your lashing time tremendously! Shop all your essential with us <3"
+            }
           </p>
           <div className="buttons flex flex-col lg:flex-row gap-2 w-full 0 md:w-96">
             <ShopNowButton />
