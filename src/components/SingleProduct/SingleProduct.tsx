@@ -58,7 +58,7 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
   };
 
   return (
-    <div className="container mx-auto grid grid-cols-2 lg:mt-12">
+    <div className="container mx-auto grid grid-cols-2 lg:mt-12 pb-12">
       <div className="image-container col-span-2 md:col-span-1 p-3 lg:p-6">
         <div className="image-wrapper w-full aspect-square relative">
           <Image
@@ -157,12 +157,12 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
           </Button>
         </div>
       </div>
-      <div className="description-wrapper col-span-2 p-6">
+      {/* <div className="description-wrapper col-span-2 p-6">
         <p>
           Product Description goes here. {productDetails.description}{" "}
           {productDetails.description} {productDetails.description}
         </p>
-      </div>
+      </div> */}
       {/* <div className="related-products col-span-2 h-56 border border-neutral-400 mb-48">
         <p>Related products goes here</p>
       </div> */}
