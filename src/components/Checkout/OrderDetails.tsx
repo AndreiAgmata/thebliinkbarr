@@ -1,15 +1,20 @@
 import { useCartContext } from "@/context/CartContext";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  calculateDiscount,
   calculateHST,
   calculateShipping,
   calculateSubTotal,
   calculateTotal,
 } from "../../../helpers/calculateTotalsHelper";
 import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
+import DiscountBlock from "./DiscountBlock";
 
 function OrderDetails() {
-  const { cart } = useCartContext();
+  const { cart, discountCode } = useCartContext();
   const { shippingAddress, isStorePickup } = useShippingDetailsContext();
 
   useEffect(() => {}, [isStorePickup]);
@@ -61,6 +66,14 @@ function OrderDetails() {
             <p className="font-medium text-[0.90rem]">Sub-total: </p>
             <p className="text-[0.90rem]">${calculateSubTotal(cart)}</p>
           </span>
+          {discountCode === "NL15" ? (
+            <span className="flex justify-between">
+              <p className="font-medium text-[0.90rem]">Discount: </p>
+              <p className="text-[0.90rem]">-${calculateDiscount(cart)}</p>
+            </span>
+          ) : (
+            <></>
+          )}
           <span className="flex justify-between">
             <p className="font-medium text-[0.90rem]">Shipping: </p>
             <p className="text-[0.90rem]">
@@ -72,15 +85,18 @@ function OrderDetails() {
           <span className="flex justify-between">
             <p className="font-medium text-[0.90rem]">HST: </p>
             <p className="text-[0.90rem]">
-              ${calculateHST(cart, isStorePickup)}
+              ${calculateHST(cart, isStorePickup, discountCode)}
             </p>
           </span>
           <span className="flex justify-between mt-4">
             <p className="font-bold">Total: </p>
-            <p className="font-bold">${calculateTotal(cart, isStorePickup)}</p>
+            <p className="font-bold">
+              ${calculateTotal(cart, isStorePickup, discountCode)}
+            </p>
           </span>
         </div>
       </div>
+      <DiscountBlock />
     </div>
   );
 }

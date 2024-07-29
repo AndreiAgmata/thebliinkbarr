@@ -10,7 +10,8 @@ export const createOrderPayload = (
   cart: CartItem[],
   shippingAddress: ShippingAddress,
   isStorePickup: boolean,
-  paymentId: string
+  paymentId: string,
+  discountCode: string
 ) => {
   // Map cart items to order items
   const orderItems: OrderItemPayload[] = cart.map((cartItem) => ({
@@ -20,7 +21,7 @@ export const createOrderPayload = (
   }));
 
   // Calculate total price
-  const totalPrice = calculateTotal(cart, isStorePickup);
+  const totalPrice = calculateTotal(cart, isStorePickup, discountCode);
 
   // Create order payload
   const orderPayload: OrderPayload = {

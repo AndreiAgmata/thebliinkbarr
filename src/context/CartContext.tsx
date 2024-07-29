@@ -13,6 +13,8 @@ interface CartContextType {
   addToCart: (cartItem: CartItem) => void;
   removeFromCart: (variationId: string) => void;
   clearCart: () => void;
+  discountCode: string;
+  addDiscountCode: (discountCode: string) => void;
 }
 
 const CART_STORAGE_KEY = "cart";
@@ -21,6 +23,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [discountCode, setDiscountCode] = useState("");
 
   useEffect(() => {
     const storedCart = localStorage.getItem(CART_STORAGE_KEY);
@@ -28,6 +31,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setCart(JSON.parse(storedCart));
     }
   }, []);
+
+  const addDiscountCode = (discountCode: string) => {
+    setDiscountCode(discountCode);
+  };
 
   const addToCart = (newCartItem: CartItem) => {
     const isDuplicate = cart.some(
@@ -74,6 +81,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addToCart,
         removeFromCart,
         clearCart,
+        discountCode,
+        addDiscountCode,
       }}
     >
       {children}

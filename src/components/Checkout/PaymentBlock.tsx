@@ -32,7 +32,7 @@ function PaymentBlock({
   const [loading, setLoading] = useState(false);
 
   //ORDER DETAILS//
-  const { cart, clearCart } = useCartContext();
+  const { cart, clearCart, discountCode } = useCartContext();
   const { shippingAddress, isStorePickup } = useShippingDetailsContext();
   //ORDER DETAILS//
 
@@ -84,7 +84,8 @@ function PaymentBlock({
         cart,
         shippingAddress,
         isStorePickup,
-        paymentId
+        paymentId,
+        discountCode
       );
 
       handleSubmitOrder(orderPayload);
@@ -146,7 +147,8 @@ function PaymentBlock({
         </div>
       ) : (
         <p className="font-bold text-2xl mb-6">
-          Purchase Total : ${calculateTotal(cart, isStorePickup)} CAD
+          Purchase Total : ${calculateTotal(cart, isStorePickup, discountCode)}{" "}
+          CAD
         </p>
       )}
       {clientSecret && <PaymentElement />}

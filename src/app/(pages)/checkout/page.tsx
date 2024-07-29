@@ -4,18 +4,30 @@ import ShippingDetailsForm from "@/components/Checkout/ShippingDetailsForm";
 import React, { useState } from "react";
 
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 import convertToSubCurrency from "@/lib/convertToSubCurrency";
 import { useCartContext } from "@/context/CartContext";
 import { calculateTotal } from "../../../../helpers/calculateTotalsHelper";
 import PaymentBlock from "@/components/Checkout/PaymentBlock";
 import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
 
-if (process.env.NEXT_PUBLIC_STRIPE_LIVE_KEY === undefined) {
-  throw new Error("NEXT_PUBLIC_STRIPE_LIVE_KEY is undefined");
-}
+let stripePromise: Promise<Stripe | null>;
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE_KEY);
+//dev
+if (process.env.NEXT_PUBLIC_ENVIRONMENT === "development") {
+  if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+    throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is undefined");
+  }
+  stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+}
+//production
+else {
+  if (process.env.NEXT_PUBLIC_STRIPE_LIVE_KEY === undefined) {
+    throw new Error("NEXT_PUBLIC_STRIPE_LIVE_KEY is undefined");
+  }
+
+  stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE_KEY);
+}
 
 function CheckoutPage() {
   const { cart } = useCartContext();
