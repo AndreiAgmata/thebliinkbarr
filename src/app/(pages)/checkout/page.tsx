@@ -30,11 +30,11 @@ else {
 }
 
 function CheckoutPage() {
-  const { cart } = useCartContext();
+  const { cart, discountCode } = useCartContext();
   const { isStorePickup } = useShippingDetailsContext();
   const amount =
-    calculateTotal(cart, isStorePickup) > 0
-      ? calculateTotal(cart, isStorePickup)
+    calculateTotal(cart, isStorePickup, discountCode) > 0
+      ? calculateTotal(cart, isStorePickup, discountCode)
       : 15;
 
   const [currentStep, setCurrentStep] = useState("orderDetails");
