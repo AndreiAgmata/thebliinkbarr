@@ -9,9 +9,13 @@ export const calculateSubTotal = (cart: CartItem[]) => {
   return parseFloat(subTotal.toFixed(2));
 };
 
-export const calculateDiscount = (cart: CartItem[]) => {
+export const calculateDiscount = (
+  cart: CartItem[],
+  discountAmountPercentage: number
+) => {
   const subTotal = calculateSubTotal(cart);
-  const discount = subTotal * 0.15;
+  const discountToDecimal = discountAmountPercentage / 100;
+  const discount = subTotal * discountToDecimal;
   return parseFloat(discount.toFixed(2));
 };
 
@@ -26,10 +30,12 @@ export const calculateShipping = (cart: CartItem[], isStorePickup: boolean) => {
 export const calculateHST = (
   cart: CartItem[],
   isStorePickup: boolean,
-  discountCode: string
+  discountAmountPercentage: number
 ) => {
-  if (discountCode !== "") {
-    const newSubtotal = calculateSubTotal(cart) - calculateDiscount(cart);
+  if (discountAmountPercentage !== 0) {
+    const newSubtotal =
+      calculateSubTotal(cart) -
+      calculateDiscount(cart, discountAmountPercentage);
     return parseFloat(
       ((newSubtotal + calculateShipping(cart, isStorePickup)) * 0.13).toFixed(2)
     );
@@ -45,15 +51,17 @@ export const calculateHST = (
 export const calculateTotal = (
   cart: CartItem[],
   isStorePickup: boolean,
-  discountCode: string
+  discountAmountPercentage: number
 ) => {
-  if (discountCode !== "") {
-    const newSubtotal = calculateSubTotal(cart) - calculateDiscount(cart);
+  if (discountAmountPercentage !== 0) {
+    const newSubtotal =
+      calculateSubTotal(cart) -
+      calculateDiscount(cart, discountAmountPercentage);
     return parseFloat(
       (
         newSubtotal +
         calculateShipping(cart, isStorePickup) +
-        calculateHST(cart, isStorePickup, discountCode)
+        calculateHST(cart, isStorePickup, discountAmountPercentage)
       ).toFixed(2)
     );
   }
@@ -62,7 +70,7 @@ export const calculateTotal = (
     (
       calculateSubTotal(cart) +
       calculateShipping(cart, isStorePickup) +
-      calculateHST(cart, isStorePickup, discountCode)
+      calculateHST(cart, isStorePickup, discountAmountPercentage)
     ).toFixed(2)
   );
 };

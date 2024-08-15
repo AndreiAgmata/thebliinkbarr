@@ -13,6 +13,7 @@ import { OrderPayload } from "../../../types/interfaces";
 import { calculateTotal } from "../../../helpers/calculateTotalsHelper";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { useDiscountContext } from "@/context/DiscountContext";
 
 interface PaymentBlockProps {
   currentStep: string;
@@ -32,7 +33,8 @@ function PaymentBlock({
   const [loading, setLoading] = useState(false);
 
   //ORDER DETAILS//
-  const { cart, clearCart, discountCode } = useCartContext();
+  const { cart, clearCart } = useCartContext();
+  const { discountObject } = useDiscountContext();
   const { shippingAddress, isStorePickup } = useShippingDetailsContext();
   //ORDER DETAILS//
 
@@ -85,7 +87,7 @@ function PaymentBlock({
         shippingAddress,
         isStorePickup,
         paymentId,
-        discountCode
+        discountObject.discountAmountPercentage
       );
 
       handleSubmitOrder(orderPayload);
@@ -147,7 +149,12 @@ function PaymentBlock({
         </div>
       ) : (
         <p className="font-bold text-2xl mb-6">
-          Purchase Total : ${calculateTotal(cart, isStorePickup, discountCode)}{" "}
+          Purchase Total : $
+          {calculateTotal(
+            cart,
+            isStorePickup,
+            discountObject.discountAmountPercentage
+          )}{" "}
           CAD
         </p>
       )}

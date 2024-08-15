@@ -13,8 +13,6 @@ interface CartContextType {
   addToCart: (cartItem: CartItem) => void;
   removeFromCart: (variationId: string) => void;
   clearCart: () => void;
-  discountCode: string;
-  addDiscountCode: (discountCode: string) => void;
 }
 
 const CART_STORAGE_KEY = "cart";
@@ -31,10 +29,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setCart(JSON.parse(storedCart));
     }
   }, []);
-
-  const addDiscountCode = (discountCode: string) => {
-    setDiscountCode(discountCode);
-  };
 
   const addToCart = (newCartItem: CartItem) => {
     const isDuplicate = cart.some(
@@ -81,8 +75,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addToCart,
         removeFromCart,
         clearCart,
-        discountCode,
-        addDiscountCode,
       }}
     >
       {children}

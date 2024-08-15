@@ -12,9 +12,11 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import DiscountBlock from "./DiscountBlock";
+import { useDiscountContext } from "@/context/DiscountContext";
 
 function OrderDetails() {
-  const { cart, discountCode } = useCartContext();
+  const { cart } = useCartContext();
+  const { discountObject } = useDiscountContext();
   const { shippingAddress, isStorePickup } = useShippingDetailsContext();
 
   useEffect(() => {}, [isStorePickup]);
@@ -66,10 +68,16 @@ function OrderDetails() {
             <p className="font-medium text-[0.90rem]">Sub-total: </p>
             <p className="text-[0.90rem]">${calculateSubTotal(cart)}</p>
           </span>
-          {discountCode === "NL15" ? (
+          {discountObject.discountCode != "" ? (
             <span className="flex justify-between">
               <p className="font-medium text-[0.90rem]">Discount: </p>
-              <p className="text-[0.90rem]">-${calculateDiscount(cart)}</p>
+              <p className="text-[0.90rem]">
+                -$
+                {calculateDiscount(
+                  cart,
+                  discountObject.discountAmountPercentage
+                )}
+              </p>
             </span>
           ) : (
             <></>
@@ -85,13 +93,23 @@ function OrderDetails() {
           <span className="flex justify-between">
             <p className="font-medium text-[0.90rem]">HST: </p>
             <p className="text-[0.90rem]">
-              ${calculateHST(cart, isStorePickup, discountCode)}
+              $
+              {calculateHST(
+                cart,
+                isStorePickup,
+                discountObject.discountAmountPercentage
+              )}
             </p>
           </span>
           <span className="flex justify-between mt-4">
             <p className="font-bold">Total: </p>
             <p className="font-bold">
-              ${calculateTotal(cart, isStorePickup, discountCode)}
+              $
+              {calculateTotal(
+                cart,
+                isStorePickup,
+                discountObject.discountAmountPercentage
+              )}
             </p>
           </span>
         </div>

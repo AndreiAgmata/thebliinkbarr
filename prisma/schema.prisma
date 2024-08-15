@@ -103,3 +103,10 @@ model OrderItem {
   product      Product?   @relation(fields: [productId], references: [id], name: "ProductOrderItems")
   quantity     Int
 }
+
+model DiscountCode {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  discountCode String
+  discountAmountPercentage Int
+  isActive Boolean
+}

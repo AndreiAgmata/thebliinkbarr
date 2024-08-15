@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useCartContext } from "@/context/CartContext";
+import { findDiscountCode } from "./ServerActions/findDiscountCode";
+import { useDiscountContext } from "@/context/DiscountContext";
 
 const DiscountBlock = () => {
-  const { addDiscountCode } = useCartContext();
+  const { addDiscountObject, resetDiscountObject } = useDiscountContext();
   const [inputValue, setInputValue] = useState("");
   const [isCodeValid, setIsCodeValid] = useState(false);
   const [applied, setApplied] = useState(false);
@@ -15,15 +16,21 @@ const DiscountBlock = () => {
     setInputValue(e.target.value);
   };
 
-  const validateDiscountCode = () => {
+  const validateDiscountCode = async () => {
     setIsCodeValid(false);
-    if (inputValue === "NL15") {
-      addDiscountCode(inputValue);
+    const discount = await findDiscountCode(inputValue);
+    if (discount) {
+      //add discount to context
+      addDiscountObject(discount);
       setApplied(true);
     } else {
       setIsCodeValid(true);
     }
   };
+
+  useEffect(() => {
+    resetDiscountObject();
+  }, []);
 
   return (
     <div className="discount-code-wrapper mt-4 p-4 bg-white rounded-md flex flex-col items-start justify-start gap-2">

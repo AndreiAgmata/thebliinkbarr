@@ -10,6 +10,7 @@ import { useCartContext } from "@/context/CartContext";
 import { calculateTotal } from "../../../../helpers/calculateTotalsHelper";
 import PaymentBlock from "@/components/Checkout/PaymentBlock";
 import { useShippingDetailsContext } from "@/context/ShippingDetailsContext";
+import { useDiscountContext } from "@/context/DiscountContext";
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -30,11 +31,22 @@ else {
 }
 
 function CheckoutPage() {
-  const { cart, discountCode } = useCartContext();
+  const { cart } = useCartContext();
+  const { discountObject } = useDiscountContext();
   const { isStorePickup } = useShippingDetailsContext();
+
+  //amount is dummy value so stripe never gets 0 for amount
   const amount =
-    calculateTotal(cart, isStorePickup, discountCode) > 0
-      ? calculateTotal(cart, isStorePickup, discountCode)
+    calculateTotal(
+      cart,
+      isStorePickup,
+      discountObject.discountAmountPercentage
+    ) > 0
+      ? calculateTotal(
+          cart,
+          isStorePickup,
+          discountObject.discountAmountPercentage
+        )
       : 15;
 
   const [currentStep, setCurrentStep] = useState("orderDetails");
