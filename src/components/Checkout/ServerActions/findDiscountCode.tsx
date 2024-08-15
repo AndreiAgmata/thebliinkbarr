@@ -8,6 +8,7 @@ export const findDiscountCode = async (discountCode: string) => {
     const discount = await prisma.discountCode.findFirst({
       where: {
         discountCode: discountCode,
+        isActive: true,
       },
     });
 
