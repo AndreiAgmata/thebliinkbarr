@@ -9,7 +9,7 @@ import { useCartContext } from "@/context/CartContext";
 function SingleProduct({ productDetails }: { productDetails: Product }) {
   const { addToCart } = useCartContext();
   const [quantity, setQuantity] = useState(1);
-  const [curlType, setCurlType] = useState("");
+  const [curlType, setCurlType] = useState("D");
   const [shape, setShape] = useState("");
   const [length, setLength] = useState("");
   const [isAddedToCart, setIsAddedToCart] = useState(false);
@@ -90,6 +90,9 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
             <ToggleGroupItem value={"D"} className="w-20">
               D
             </ToggleGroupItem>
+            <ToggleGroupItem value={"CC"} className="w-20">
+              CC
+            </ToggleGroupItem>
           </ToggleGroup>
 
           <p className="font-medium mb-2 text-lg">Length:</p>
@@ -97,15 +100,17 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
             type="single"
             onValueChange={(value) => setLength(value)}
           >
-            {productDetails.variations.map((variation: Variation) => (
-              <ToggleGroupItem
-                value={variation.length ? variation.length?.toString() : ""}
-                key={variation.id}
-                className="w-20"
-              >
-                {variation.length}mm
-              </ToggleGroupItem>
-            ))}
+            {productDetails.variations
+              .filter((variation) => variation.curlType === curlType)
+              .map((variation: Variation) => (
+                <ToggleGroupItem
+                  value={variation.length ? variation.length?.toString() : ""}
+                  key={variation.id}
+                  className="w-20"
+                >
+                  {variation.length}mm
+                </ToggleGroupItem>
+              ))}
           </ToggleGroup>
         </div>
         <div
