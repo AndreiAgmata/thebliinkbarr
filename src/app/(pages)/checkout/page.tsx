@@ -78,27 +78,39 @@ function CheckoutPage() {
             onStepChange={handleStepChange}
           />
         </div>
-
-        <div
-          className={`payment-step ${
-            currentStep === "payment" ? "" : "hidden"
-          }`}
-        >
-          <Elements
-            stripe={stripePromise}
-            options={{
-              mode: "payment",
-              amount: convertToSubCurrency(amount),
-              currency: "cad",
-            }}
+        {amount ===
+        calculateTotal(
+          cart,
+          isStorePickup,
+          discountObject.discountAmountPercentage
+        ) ? (
+          <div
+            className={`payment-step ${
+              currentStep === "payment" ? "" : "hidden"
+            }`}
           >
-            <PaymentBlock
-              amount={amount}
-              onStepChange={handleStepChange}
-              currentStep={currentStep}
-            />
-          </Elements>
-        </div>
+            <Elements
+              stripe={stripePromise}
+              options={{
+                mode: "payment",
+                amount: convertToSubCurrency(amount),
+                currency: "cad",
+              }}
+            >
+              <PaymentBlock
+                amount={amount}
+                onStepChange={handleStepChange}
+                currentStep={currentStep}
+              />
+            </Elements>
+          </div>
+        ) : (
+          <div>
+            <p>
+              An error ocurred while processing the order. Please try again.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
