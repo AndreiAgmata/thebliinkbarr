@@ -102,6 +102,7 @@ function SingleProduct({ productDetails }: { productDetails: Product }) {
           >
             {productDetails.variations
               .filter((variation) => variation.curlType === curlType)
+              .filter((variation) => variation.stock > 1)
               .map((variation: Variation) => (
                 <ToggleGroupItem
                   value={variation.length ? variation.length?.toString() : ""}
